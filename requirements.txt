@@ -4,3 +4,4 @@ psycopg2==2.9.7
 sqlalchemy==2.0.18
 pydantic==1.10.12
 python-decouple==3.8
+python-dotenv==1.0.1
