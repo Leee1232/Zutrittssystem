@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +14,11 @@
             flex-direction: column;
             height: 100vh;
             margin: 0;
-            background-image: url('../frontend/images/background-image.jpg');
+            background-image: url('images/background-image.jpg');
             background-size: cover;
             background-position: center;
         }
+
         .login-container {
             background: rgba(255, 255, 255, 0.8);
             padding: 30px;
@@ -25,9 +27,11 @@
             width: 350px;
             text-align: center;
         }
+
         .login-container h2 {
             margin-bottom: 20px;
         }
+
         .login-container input {
             width: 100%;
             padding: 12px;
@@ -36,6 +40,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         .login-container button {
             width: 100%;
             padding: 12px;
@@ -45,22 +50,26 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .login-container button:hover {
             background-color: #0056b3;
         }
+
         .message {
             margin-top: 15px;
             color: red;
         }
+
         .logo {
             width: 120px;
             margin-bottom: 20px;
         }
     </style>
 </head>
+
 <body>
     <img src="../frontend/images/htl-hallein-logo.png" alt="HTL Hallein Logo" class="logo" />
-    
+
     <div class="login-container">
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username" />
@@ -97,4 +106,5 @@
         }
     </script>
 </body>
+
 </html>
