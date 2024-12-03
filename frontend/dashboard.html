@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .dashboard-container {
+            text-align: center;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-container h1 {
+            margin-bottom: 20px;
+        }
+        .dashboard-container p {
+            font-size: 18px;
+        }
+        .logout-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Willkommen im Dashboard!</h1>
+        <p>Sie haben sich erfolgreich eingeloggt.</p>
+        <button class="logout-button" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        if (!localStorage.getItem("loggedIn")) {
+            window.location.href = "index.html"; // Wenn nicht eingeloggt, zur Login-Seite weiterleiten
+        }
+
+        function logout() {
+            // Entferne die Login-Informationen aus dem localStorage
+            localStorage.removeItem("loggedIn");
+            window.location.href = "index.html"; // Weiterleitung zur Login-Seite
+        }
+    </script>
+</body>
+</html>
