@@ -19,6 +19,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # FastAPI-App initialisieren
 app = FastAPI()
 
+@app.get("/")
+async def root():
+    return {"message": "Hello, World!"}
+
 # Datenbank-Modelle definieren
 class Student(Base):
     __tablename__ = 'students'
