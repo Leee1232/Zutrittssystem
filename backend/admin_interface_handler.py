@@ -19,7 +19,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # FastAPI-App initialisieren
 app = FastAPI()
 
-@app.get("/")
+@app.get("/test")
 async def root():
     return {"message": "Hello, World!"}
 
