@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        .dashboard-container {
-            text-align: center;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .dashboard-container h1 {
-            margin-bottom: 20px;
-        }
-        .dashboard-container p {
-            font-size: 18px;
-        }
-        .logout-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .logout-button:hover {
-            background-color: #c82333;
-        }
-    </style>
+    <title>Zweig und Klasse auswählen</title>
 </head>
+
 <body>
-    <div class="dashboard-container">
-        <h1>Willkommen im Dashboard!</h1>
-        <p>Sie haben sich erfolgreich eingeloggt.</p>
-        <button class="logout-button" onclick="logout()">Logout</button>
-    </div>
+    <h1>Zweig und Klasse auswählen</h1>
+    <form id="selection-form" method="GET" action="students.html">
+        <label for="branch">Zweig auswählen:</label>
+        <select id="branch" name="branch" required>
+            <option value="">-- Wähle einen Zweig --</option>
+        </select>
+        <br><br>
+        <label for="class">Klasse auswählen:</label>
+        <select id="class" name="class" required disabled>
+            <option value="">-- Wähle einen Zweig zuerst --</option>
+        </select>
+        <br><br>
+        <button type="submit">Suchen</button>
+    </form>
 
     <script>
-        // Überprüfen, ob der Benutzer eingeloggt ist
-        if (!localStorage.getItem("loggedIn")) {
-            window.location.href = "index.html"; // Wenn nicht eingeloggt, zur Login-Seite weiterleiten
-        }
+        // API-Endpunkt für Zweige und Klassen
+        const apiBase = "http://localhost:3000/api"; // Dummy-API
 
-        function logout() {
-            // Entferne die Login-Informationen aus dem localStorage
-            localStorage.removeItem("loggedIn");
-            window.location.href = "index.html"; // Weiterleitung zur Login-Seite
-        }
+        const branchSelect = document.getElementById("branch");
+        const classSelect = document.getElementById("class");
+
+        // Lade Zweige
+        fetch(`${apiBase}/branches`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(branch => {
+                    const option = document.createElement("option");
+                    option.value = branch.id;
+                    option.textContent = branch.name;
+                    branchSelect.appendChild(option);
+                });
+            });
+
+        // Lade Klassen basierend auf dem ausgewählten Zweig
+        branchSelect.addEventListener("change", () => {
+            const branchId = branchSelect.value;
+            classSelect.innerHTML = '<option value="">-- Wähle eine Klasse --</option>';
+            classSelect.disabled = !branchId;
+
+            if (branchId) {
+                fetch(`${apiBase}/branches/${branchId}/classes`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(klass => {
+                            const option = document.createElement("option");
+                            option.value = klass.id;
+                            option.textContent = klass.name;
+                            classSelect.appendChild(option);
+                        });
+                    });
+            }
+        });
     </script>
 </body>
+
 </html>

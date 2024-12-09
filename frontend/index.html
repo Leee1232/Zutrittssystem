@@ -29,7 +29,11 @@
         }
 
         .login-container h2 {
-            margin-bottom: 20px;
+            margin-top: 5px; /* Abstand nach oben reduziert */
+            margin-bottom: 15px; /* Falls nötig */
+            font-weight: 400;
+            font-size: 18px;
+            color: #333;
         }
 
         .login-container input {
@@ -62,15 +66,15 @@
 
         .logo {
             width: 120px;
-            margin-bottom: 20px;
+            margin-bottom: 5px; /* Abstand nach unten reduziert */
         }
     </style>
 </head>
 
 <body>
-    <img src="images/htl-hallein-logo.png" alt="HTL Hallein Logo" class="logo" />
-
+    
     <div class="login-container">
+        <img src="images/htl-hallein-logo-transparent.png" alt="HTL Hallein Logo" class="logo" />
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Username" />
         <input type="password" id="password" placeholder="Password" />
