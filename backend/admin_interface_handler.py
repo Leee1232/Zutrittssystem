@@ -1,9 +1,8 @@
-from fastapi import FastAPI, HTTPException, Request, Depends
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
-from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy.orm import relationship
+from fastapi import FastAPI, HTTPException
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Time
+from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 import os
 from dotenv import load_dotenv
 
@@ -21,96 +20,134 @@ app = FastAPI()
 
 @app.get("/test")
 async def root():
-    return {"message": "Hello, World!"}
+    return {"message": "Hallo, Welt!"}
 
-# Datenbank-Modelle definieren
-class Student(Base):
-    __tablename__ = 'students'
-    id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String, index=True)
-    last_name = Column(String, index=True)
-    class_name = Column(String, index=True)
-    room_access = relationship("RoomAccess", back_populates="student")
+# Datenbank-Modelle
+class Schueler(Base):
+    __tablename__ = 'schueler'
+    schueler_id = Column(Integer, primary_key=True, index=True)
+    vorname = Column(String, nullable=False)
+    nachname = Column(String, nullable=False)
+    klasse = Column(String, nullable=False)
+    rfid_tag = Column(String, nullable=True)  # Optional, da es sein kann, dass nicht jeder Schüler einen RFID-Tag hat
+    zugang = relationship("Zugang", back_populates="schueler")
 
-class RoomAccess(Base):
-    __tablename__ = 'room_access'
-    id = Column(Integer, primary_key=True, index=True)
-    student_id = Column(Integer, ForeignKey('students.id'))
-    room_name = Column(String, index=True)
-    is_allowed = Column(Integer)  # 1 für erlaubt, 0 für gesperrt
-    student = relationship("Student", back_populates="room_access")
+class Raum(Base):
+    __tablename__ = 'raeume'
+    raum_id = Column(Integer, primary_key=True, index=True)
+    raum_name = Column(String, unique=True, nullable=False)
 
-# Initialisiere die Datenbank (einmalig ausführen)
+class Zugang(Base):
+    __tablename__ = 'zugang'
+    zugang_id = Column(Integer, primary_key=True, index=True)
+    schueler_id = Column(Integer, ForeignKey('schueler.schueler_id'))
+    raum_id = Column(Integer, ForeignKey('raeume.raum_id'))
+    datum = Column(Date, nullable=False)
+    zeit = Column(Time, nullable=False)
+    schueler = relationship("Schueler", back_populates="zugang")
+    raum = relationship("Raum")
+
+class RFIDTag(Base):
+    __tablename__ = 'rfid_tags'
+    tag_id = Column(Integer, primary_key=True, index=True)
+    rfid_tag = Column(String, unique=True, nullable=False)
+
+# Initialisiere die Datenbank
 Base.metadata.create_all(bind=engine)
 
 # API-Datenmodelle
-class StudentRequest(BaseModel):
-    first_name: str
-    last_name: str
-    class_name: str
+class SchuelerRequest(BaseModel):
+    vorname: str
+    nachname: str
+    klasse: str
+    rfid_tag: str
 
-class RoomAccessRequest(BaseModel):
-    room_name: str
-    is_allowed: int
+class RaumRequest(BaseModel):
+    raum_name: str
 
-# Routen für das API
-@app.get("/students", response_model=List[StudentRequest])
-def get_students():
-    """Gibt eine Liste aller Schüler zurück"""
+class ZugangRequest(BaseModel):
+    raum_id: int
+    datum: str
+    zeit: str
+
+class RFIDTagRequest(BaseModel):
+    rfid_tag: str
+
+# API-Routen
+@app.get("/schueler", response_model=List[SchuelerRequest])
+def get_schueler():
     db = SessionLocal()
-    students = db.query(Student).all()
+    schueler = db.query(Schueler).all()
     db.close()
-    return students
+    return schueler
 
-@app.get("/student/{student_id}")
-def get_student(student_id: int):
-    """Gibt die Details eines bestimmten Schülers zurück"""
+@app.post("/schueler")
+def add_schueler(schueler: SchuelerRequest):
     db = SessionLocal()
-    student = db.query(Student).filter(Student.id == student_id).first()
-    db.close()
-    if student is None:
-        raise HTTPException(status_code=404, detail="Student not found")
-    return student
-
-@app.post("/update_access/{student_id}")
-def update_room_access(student_id: int, room_access: RoomAccessRequest):
-    """Aktualisiert den Zutritt eines Schülers zu einem bestimmten Raum"""
-    db = SessionLocal()
-    student = db.query(Student).filter(Student.id == student_id).first()
-    if not student:
-        db.close()
-        raise HTTPException(status_code=404, detail="Student not found")
-    
-    # Prüfen, ob der Eintrag für den Raum existiert
-    access = db.query(RoomAccess).filter(
-        RoomAccess.student_id == student_id, RoomAccess.room_name == room_access.room_name
-    ).first()
-
-    if access:
-        # Bestehenden Zutritt aktualisieren
-        access.is_allowed = room_access.is_allowed
-    else:
-        # Neuen Zutritt anlegen
-        new_access = RoomAccess(student_id=student_id, room_name=room_access.room_name, is_allowed=room_access.is_allowed)
-        db.add(new_access)
-
+    neuer_schueler = Schueler(
+        vorname=schueler.vorname,
+        nachname=schueler.nachname,
+        klasse=schueler.klasse,
+        rfid_tag=schueler.rfid_tag
+    )
+    db.add(neuer_schueler)
     db.commit()
     db.close()
-    return {"message": "Room access updated successfully"}
+    return {"message": "Schüler erfolgreich hinzugefügt"}
 
-@app.get("/check_access/{student_id}/{room_name}")
-def check_room_access(student_id: int, room_name: str):
-    """Überprüft, ob ein Schüler Zutritt zu einem Raum hat"""
+@app.post("/raeume")
+def add_raum(raum: RaumRequest):
     db = SessionLocal()
-    access = db.query(RoomAccess).filter(
-        RoomAccess.student_id == student_id, RoomAccess.room_name == room_name
+    neuer_raum = Raum(raum_name=raum.raum_name)
+    db.add(neuer_raum)
+    db.commit()
+    db.close()
+    return {"message": "Raum erfolgreich hinzugefügt"}
+
+@app.post("/zugang/{schueler_id}")
+def update_zugang(schueler_id: int, zugang: ZugangRequest):
+    db = SessionLocal()
+    schueler = db.query(Schueler).filter(Schueler.schueler_id == schueler_id).first()
+    if not schueler:
+        db.close()
+        raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
+
+    neuer_zugang = Zugang(
+        schueler_id=schueler_id,
+        raum_id=zugang.raum_id,
+        datum=zugang.datum,
+        zeit=zugang.zeit
+    )
+    db.add(neuer_zugang)
+    db.commit()
+    db.close()
+    return {"message": "Zugang erfolgreich aktualisiert"}
+
+@app.post("/rfid_tags")
+def add_rfid_tag(rfid_tag: RFIDTagRequest):
+    db = SessionLocal()
+    neuer_tag = RFIDTag(rfid_tag=rfid_tag.rfid_tag)
+    db.add(neuer_tag)
+    db.commit()
+    db.close()
+    return {"message": "RFID-Tag erfolgreich hinzugefügt"}
+
+@app.get("/check_zugang/{rfid_tag}/{raum_id}/{datum}/{zeit}")
+def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str):
+    db = SessionLocal()
+    schueler = db.query(Schueler).filter(Schueler.rfid_tag == rfid_tag).first()
+    if not schueler:
+        db.close()
+        raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
+
+    zugang = db.query(Zugang).filter(
+        Zugang.schueler_id == schueler.schueler_id,
+        Zugang.raum_id == raum_id,
+        Zugang.datum == datum,
+        Zugang.zeit == zeit
     ).first()
     db.close()
-    
-    if access is None:
-        raise HTTPException(status_code=404, detail="Access information not found")
-    
-    if access.is_allowed == 1:
-        return {"message": "Access granted"}
-    else:
-        return {"message": "Access denied"}
+
+    if zugang is None:
+        return {"message": "Zugang nicht erlaubt"}
+    return {"message": "Zugang erlaubt"}
