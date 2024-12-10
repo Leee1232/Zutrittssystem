@@ -90,19 +90,20 @@ def register_user(register_request: RegisterRequest):
 
 @app.post("/login")
 def login_user(login_request: LoginRequest):
-    """Benutzer-Login"""
-    logging.debug(f"Login-Versuch für Benutzer: {login_request.username}")
+    logging.debug(f"Login attempt: {login_request.username}")
     db = SessionLocal()
     user = db.query(Benutzer).filter(Benutzer.username == login_request.username).first()
     db.close()
 
     if not user:
-        logging.debug("Benutzer nicht gefunden.")
-        raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
+        logging.debug("User not found.")
+        return JSONResponse(status_code=401, content={"detail": "Ungültiger Benutzername oder Passwort"})
+
+    logging.debug(f"User found: {user.username}")
 
     if not verify_password(login_request.password, user.hashed_password):
-        logging.debug("Passwort stimmt nicht überein.")
-        raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
+        logging.debug("Password mismatch.")
+        return JSONResponse(status_code=401, content={"detail": "Ungültiger Benutzername oder Passwort"})
 
-    logging.debug(f"Benutzer {login_request.username} erfolgreich eingeloggt.")
-    return {"message": f"Willkommen, {login_request.username}!", "user_id": user.id}
+    logging.debug(f"Password verified for user {user.username}.")
+    return JSONResponse(status_code=200, content={"message": f"Willkommen, {login_request.username}!", "user_id": user.id})

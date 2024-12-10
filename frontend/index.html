@@ -92,14 +92,15 @@ async function login() {
         console.log("HTTP Response Status:", response.status);
 
         if (!response.ok) {
-            console.error("Fehler beim Login: Status Code", response.status);
+            const errorData = await response.text();
+            console.error("Fehler beim Login: ", errorData);
             throw new Error("Login fehlgeschlagen");
         }
 
         const data = await response.json();
         console.log("Antwort vom Server:", data);
 
-        if (data.message && data.message.includes("Willkommen")) {
+        if (data && data.message && data.message.includes("Willkommen")) {
             message.style.color = "green";
             message.textContent = data.message;
             setTimeout(() => {
