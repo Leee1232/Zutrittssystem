@@ -7,4 +7,3 @@ python-decouple==3.8
 python-dotenv==1.0.1
 passlib[bcrypt]==1.7.4
 aiofiles==23.1.0
-fastapi.middleware.cors
