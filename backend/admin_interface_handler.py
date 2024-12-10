@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import logging
-
+from fastapi.responses import JSONResponse
 # Laden der Umgebungsvariablen
 from dotenv import load_dotenv
 load_dotenv()
