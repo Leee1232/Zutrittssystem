@@ -1,21 +1,23 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Time
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from pydantic import BaseModel
 from passlib.context import CryptContext
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
 import os
-from dotenv import load_dotenv
 import logging
 
-# Lade Umgebungsvariablen aus einer .env-Datei
+# Laden der Umgebungsvariablen
+from dotenv import load_dotenv
 load_dotenv()
+
+# Initialisieren des Loggings
+logging.basicConfig(level=logging.DEBUG)
 
 # Passwort-Hashing-Konfiguration
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# Datenbankverbindung konfigurieren
+# Datenbankverbindung
 DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
 Base = declarative_base()
@@ -24,46 +26,16 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # FastAPI-App initialisieren
 app = FastAPI()
 
-# CORS-Middleware
+# CORS-Middleware konfigurieren
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://zutrittssystemweb.onrender.com"],  # Frontend-Domain
     allow_credentials=True,
-    allow_methods=["*"],  # Alle Methoden (GET, POST, etc.)
-    allow_headers=["*"],  # Alle Header-Typen
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Datenbank-Modelle
-class Schueler(Base):
-    __tablename__ = 'schueler'
-    schueler_id = Column(Integer, primary_key=True, index=True)
-    vorname = Column(String, nullable=False)
-    nachname = Column(String, nullable=False)
-    klasse = Column(String, nullable=False)
-    rfid_tag = Column(String, nullable=True)
-    zugang = relationship("Zugang", back_populates="schueler")
-
-class Raum(Base):
-    __tablename__ = 'raeume'
-    raum_id = Column(Integer, primary_key=True, index=True)
-    raum_name = Column(String, unique=True, nullable=False)
-
-class Zugang(Base):
-    __tablename__ = 'zugang'
-    zugang_id = Column(Integer, primary_key=True, index=True)
-    schueler_id = Column(Integer, ForeignKey('schueler.schueler_id'))
-    raum_id = Column(Integer, ForeignKey('raeume.raum_id'))
-    datum = Column(Date, nullable=False)
-    zeit_von = Column(Time, nullable=False)  # Zeit von
-    zeit_bis = Column(Time, nullable=False)  # Zeit bis
-    schueler = relationship("Schueler", back_populates="zugang")
-    raum = relationship("Raum")
-
-class RFIDTag(Base):
-    __tablename__ = 'rfid_tags'
-    tag_id = Column(Integer, primary_key=True, index=True)
-    rfid_tag = Column(String, unique=True, nullable=False)
-
 class Benutzer(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, index=True)
@@ -74,23 +46,6 @@ class Benutzer(Base):
 Base.metadata.create_all(bind=engine)
 
 # API-Datenmodelle
-class SchuelerRequest(BaseModel):
-    vorname: str
-    nachname: str
-    klasse: str
-    rfid_tag: str
-
-class RaumRequest(BaseModel):
-    raum_name: str
-
-class ZugangRequest(BaseModel):
-    raum_id: int
-    datum: str
-    zeit: str
-
-class RFIDTagRequest(BaseModel):
-    rfid_tag: str
-
 class RegisterRequest(BaseModel):
     username: str
     password: str
@@ -101,73 +56,53 @@ class LoginRequest(BaseModel):
 
 # Hilfsfunktionen
 def get_password_hash(password):
+    """Hashing-Funktion für Passwörter"""
     return pwd_context.hash(password)
 
 def verify_password(plain_password, hashed_password):
+    """Überprüfen eines Passworts gegen einen Hash"""
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_user_by_username(username: str):
+    """Benutzer anhand des Benutzernamens aus der Datenbank abfragen"""
     db = SessionLocal()
     user = db.query(Benutzer).filter(Benutzer.username == username).first()
     db.close()
     return user
 
-logging.basicConfig(level=logging.DEBUG)
+# Routen
+@app.post("/register")
+def register_user(register_request: RegisterRequest):
+    """Benutzerregistrierung"""
+    db = SessionLocal()
+    if db.query(Benutzer).filter(Benutzer.username == register_request.username).first():
+        db.close()
+        raise HTTPException(status_code=400, detail="Benutzername bereits vergeben")
+    
+    hashed_password = get_password_hash(register_request.password)
+    new_user = Benutzer(username=register_request.username, hashed_password=hashed_password)
+    db.add(new_user)
+    db.commit()
+    db.close()
+    
+    logging.debug(f"Benutzer {register_request.username} erfolgreich registriert")
+    return {"message": "Benutzer erfolgreich registriert"}
 
 @app.post("/login")
 def login_user(login_request: LoginRequest):
-    logging.debug(f"Login attempt: {login_request.username}")
+    """Benutzer-Login"""
+    logging.debug(f"Login-Versuch für Benutzer: {login_request.username}")
     db = SessionLocal()
     user = db.query(Benutzer).filter(Benutzer.username == login_request.username).first()
     db.close()
 
     if not user:
-        logging.debug("User not found.")
+        logging.debug("Benutzer nicht gefunden.")
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
 
     if not verify_password(login_request.password, user.hashed_password):
-        logging.debug("Password mismatch.")
+        logging.debug("Passwort stimmt nicht überein.")
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
 
-    logging.debug(f"User {login_request.username} successfully logged in.")
+    logging.debug(f"Benutzer {login_request.username} erfolgreich eingeloggt.")
     return {"message": f"Willkommen, {login_request.username}!", "user_id": user.id}
-
-# Beispiel API-Routen
-@app.get("/schueler", response_model=List[SchuelerRequest])
-def get_schueler():
-    db = SessionLocal()
-    schueler = db.query(Schueler).all()
-    db.close()
-    return schueler
-
-@app.post("/schueler")
-def add_schueler(schueler: SchuelerRequest):
-    db = SessionLocal()
-    neuer_schueler = Schueler(
-        vorname=schueler.vorname,
-        nachname=schueler.nachname,
-        klasse=schueler.klasse,
-        rfid_tag=schueler.rfid_tag
-    )
-    db.add(neuer_schueler)
-    db.commit()
-    db.close()
-    return {"message": "Schüler erfolgreich hinzugefügt"}
-
-@app.post("/raeume")
-def add_raum(raum: RaumRequest):
-    db = SessionLocal()
-    neuer_raum = Raum(raum_name=raum.raum_name)
-    db.add(neuer_raum)
-    db.commit()
-    db.close()
-    return {"message": "Raum erfolgreich hinzugefügt"}
-
-@app.post("/rfid_tags")
-def add_rfid_tag(rfid_tag: RFIDTagRequest):
-    db = SessionLocal()
-    neuer_tag = RFIDTag(rfid_tag=rfid_tag.rfid_tag)
-    db.add(neuer_tag)
-    db.commit()
-    db.close()
-    return {"message": "RFID-Tag erfolgreich hinzugefügt"}
