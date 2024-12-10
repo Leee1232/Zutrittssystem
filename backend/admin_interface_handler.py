@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import os
 from dotenv import load_dotenv
+import logging
 
 # Lade Umgebungsvariablen aus einer .env-Datei
 load_dotenv()
@@ -111,12 +112,24 @@ def get_user_by_username(username: str):
     db.close()
     return user
 
+logging.basicConfig(level=logging.DEBUG)
+
 @app.post("/login")
 def login_user(login_request: LoginRequest):
-    user = get_user_by_username(login_request.username)
-    if not user or not verify_password(login_request.password, user.hashed_password):
+    logging.debug(f"Login attempt: {login_request.username}")
+    db = SessionLocal()
+    user = db.query(Benutzer).filter(Benutzer.username == login_request.username).first()
+    db.close()
+
+    if not user:
+        logging.debug("User not found.")
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
 
+    if not verify_password(login_request.password, user.hashed_password):
+        logging.debug("Password mismatch.")
+        raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
+
+    logging.debug(f"User {login_request.username} successfully logged in.")
     return {"message": f"Willkommen, {login_request.username}!", "user_id": user.id}
 
 # Beispiel API-Routen
