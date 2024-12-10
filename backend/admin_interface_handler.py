@@ -2,12 +2,16 @@ from fastapi import FastAPI, HTTPException
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Time
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from pydantic import BaseModel
+from passlib.context import CryptContext
 from typing import List
 import os
 from dotenv import load_dotenv
 
 # Lade Umgebungsvariablen aus einer .env-Datei
 load_dotenv()
+
+# Passwort-Hashing-Konfiguration
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Datenbankverbindung konfigurieren
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -29,7 +33,7 @@ class Schueler(Base):
     vorname = Column(String, nullable=False)
     nachname = Column(String, nullable=False)
     klasse = Column(String, nullable=False)
-    rfid_tag = Column(String, nullable=True)  # Optional, da es sein kann, dass nicht jeder Schüler einen RFID-Tag hat
+    rfid_tag = Column(String, nullable=True)
     zugang = relationship("Zugang", back_populates="schueler")
 
 class Raum(Base):
@@ -43,7 +47,8 @@ class Zugang(Base):
     schueler_id = Column(Integer, ForeignKey('schueler.schueler_id'))
     raum_id = Column(Integer, ForeignKey('raeume.raum_id'))
     datum = Column(Date, nullable=False)
-    zeit = Column(Time, nullable=False)
+    zeit_von = Column(Time, nullable=False)  # Zeit von
+    zeit_bis = Column(Time, nullable=False)  # Zeit bis
     schueler = relationship("Schueler", back_populates="zugang")
     raum = relationship("Raum")
 
@@ -51,6 +56,12 @@ class RFIDTag(Base):
     __tablename__ = 'rfid_tags'
     tag_id = Column(Integer, primary_key=True, index=True)
     rfid_tag = Column(String, unique=True, nullable=False)
+
+class Benutzer(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
 
 # Initialisiere die Datenbank
 Base.metadata.create_all(bind=engine)
@@ -73,7 +84,36 @@ class ZugangRequest(BaseModel):
 class RFIDTagRequest(BaseModel):
     rfid_tag: str
 
-# API-Routen
+class RegisterRequest(BaseModel):
+    username: str
+    password: str
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+# Hilfsfunktionen
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_user_by_username(username: str):
+    db = SessionLocal()
+    user = db.query(Benutzer).filter(Benutzer.username == username).first()
+    db.close()
+    return user
+
+@app.post("/login")
+def login_user(login_request: LoginRequest):
+    user = get_user_by_username(login_request.username)
+    if not user or not verify_password(login_request.password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
+    
+    return {"message": f"Willkommen zurück, {login_request.username}!"}
+
+# Beispiel API-Routen (Schüler, Räume, RFID-Logik wie oben beschrieben)
 @app.get("/schueler", response_model=List[SchuelerRequest])
 def get_schueler():
     db = SessionLocal()

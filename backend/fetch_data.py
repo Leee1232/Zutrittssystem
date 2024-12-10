@@ -9,7 +9,7 @@ def fetch_schueler_data():
         cursor = connection.cursor()
 
         # Beispiel: Abrufen aller Schüler
-        query = "SELECT * FROM schueler;"
+        query = "SELECT * FROM users;"
         cursor.execute(query)
         rows = cursor.fetchall()
 
