@@ -29,8 +29,8 @@
         }
 
         .login-container h2 {
-            margin-top: 5px; /* Abstand nach oben reduziert */
-            margin-bottom: 15px; /* Falls nötig */
+            margin-top: 5px;
+            margin-bottom: 15px;
             font-weight: 400;
             font-size: 18px;
             color: #333;
@@ -66,13 +66,12 @@
 
         .logo {
             width: 120px;
-            margin-bottom: 5px; /* Abstand nach unten reduziert */
+            margin-bottom: 5px;
         }
     </style>
 </head>
 
 <body>
-    
     <div class="login-container">
         <img src="images/htl-hallein-logo-transparent.png" alt="HTL Hallein Logo" class="logo" />
         <h2>Login</h2>
@@ -83,27 +82,35 @@
     </div>
 
     <script>
-        const users = [
-            { username: "admin", password: "1234" },
-            { username: "user", password: "password" }
-        ];
-
-        function login() {
+        async function login() {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
             const message = document.getElementById("message");
 
-            const user = users.find(user => user.username === username && user.password === password);
+            try {
+                const response = await fetch("https://zutrittssystemweb.onrender.com/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ username, password })
+                });
 
-            if (user) {
+                if (!response.ok) {
+                    throw new Error("Login fehlgeschlagen");
+                }
+
+                const data = await response.json();
                 message.style.color = "green";
-                message.textContent = "Login erfolgreich!";
+                message.textContent = data.message;
+
+                // Erfolgreiches Login - Benutzer-ID speichern und weiterleiten
                 setTimeout(() => {
-                    // Speichern des Logins im localStorage
+                    localStorage.setItem("userId", data.user_id);
                     localStorage.setItem("loggedIn", "true");
                     window.location.href = "dashboard.html";
                 }, 1000);
-            } else {
+            } catch (error) {
                 message.style.color = "red";
                 message.textContent = "Ungültiger Benutzername oder Passwort.";
             }

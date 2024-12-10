@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date,
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from pydantic import BaseModel
 from passlib.context import CryptContext
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import os
 from dotenv import load_dotenv
@@ -22,9 +23,14 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # FastAPI-App initialisieren
 app = FastAPI()
 
-@app.get("/test")
-async def root():
-    return {"message": "Hallo, Welt!"}
+# CORS-Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://zutrittssystemweb.onrender.com"],  # Frontend-Domain
+    allow_credentials=True,
+    allow_methods=["*"],  # Alle Methoden (GET, POST, etc.)
+    allow_headers=["*"],  # Alle Header-Typen
+)
 
 # Datenbank-Modelle
 class Schueler(Base):
@@ -110,10 +116,10 @@ def login_user(login_request: LoginRequest):
     user = get_user_by_username(login_request.username)
     if not user or not verify_password(login_request.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
-    
-    return {"message": f"Willkommen zurück, {login_request.username}!"}
 
-# Beispiel API-Routen (Schüler, Räume, RFID-Logik wie oben beschrieben)
+    return {"message": f"Willkommen, {login_request.username}!", "user_id": user.id}
+
+# Beispiel API-Routen
 @app.get("/schueler", response_model=List[SchuelerRequest])
 def get_schueler():
     db = SessionLocal()
@@ -144,25 +150,6 @@ def add_raum(raum: RaumRequest):
     db.close()
     return {"message": "Raum erfolgreich hinzugefügt"}
 
-@app.post("/zugang/{schueler_id}")
-def update_zugang(schueler_id: int, zugang: ZugangRequest):
-    db = SessionLocal()
-    schueler = db.query(Schueler).filter(Schueler.schueler_id == schueler_id).first()
-    if not schueler:
-        db.close()
-        raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
-
-    neuer_zugang = Zugang(
-        schueler_id=schueler_id,
-        raum_id=zugang.raum_id,
-        datum=zugang.datum,
-        zeit=zugang.zeit
-    )
-    db.add(neuer_zugang)
-    db.commit()
-    db.close()
-    return {"message": "Zugang erfolgreich aktualisiert"}
-
 @app.post("/rfid_tags")
 def add_rfid_tag(rfid_tag: RFIDTagRequest):
     db = SessionLocal()
@@ -171,23 +158,3 @@ def add_rfid_tag(rfid_tag: RFIDTagRequest):
     db.commit()
     db.close()
     return {"message": "RFID-Tag erfolgreich hinzugefügt"}
-
-@app.get("/check_zugang/{rfid_tag}/{raum_id}/{datum}/{zeit}")
-def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str):
-    db = SessionLocal()
-    schueler = db.query(Schueler).filter(Schueler.rfid_tag == rfid_tag).first()
-    if not schueler:
-        db.close()
-        raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
-
-    zugang = db.query(Zugang).filter(
-        Zugang.schueler_id == schueler.schueler_id,
-        Zugang.raum_id == raum_id,
-        Zugang.datum == datum,
-        Zugang.zeit == zeit
-    ).first()
-    db.close()
-
-    if zugang is None:
-        return {"message": "Zugang nicht erlaubt"}
-    return {"message": "Zugang erlaubt"}
