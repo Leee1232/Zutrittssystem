@@ -73,39 +73,51 @@
     </div>
 
     <script>
-        async function login() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const message = document.getElementById("message");
+async function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
 
-            try {
-                const response = await fetch("https://zutrittssystemweb.onrender.com/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ username, password })
-                });
+    console.log("Versuche Login mit Benutzername:", username);
 
-                if (!response.ok) {
-                    throw new Error("Login fehlgeschlagen");
-                }
+    try {
+        const response = await fetch("https://zutrittssystemweb.onrender.com/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        });
 
-                const data = await response.json();
-                message.style.color = "green";
-                message.textContent = data.message;
+        console.log("HTTP Response Status:", response.status);
 
-                // Erfolgreiches Login - Benutzer-ID speichern und weiterleiten
-                setTimeout(() => {
-                    localStorage.setItem("userId", data.user_id);
-                    localStorage.setItem("loggedIn", "true");
-                    window.location.href = "dashboard.html";
-                }, 1000);
-            } catch (error) {
-                message.style.color = "red";
-                message.textContent = "Ungültiger Benutzername oder Passwort.";
-            }
+        if (!response.ok) {
+            console.error("Fehler beim Login: Status Code", response.status);
+            throw new Error("Login fehlgeschlagen");
         }
+
+        const data = await response.json();
+        console.log("Antwort vom Server:", data);
+
+        if (data.message && data.message.includes("Willkommen")) {
+            message.style.color = "green";
+            message.textContent = data.message;
+            setTimeout(() => {
+                localStorage.setItem("userId", data.user_id);
+                localStorage.setItem("loggedIn", "true");
+                window.location.href = "dashboard.html";
+            }, 1000);
+        } else {
+            console.warn("Unerwartete Antwort:", data);
+            message.style.color = "red";
+            message.textContent = "Ungültiger Benutzername oder Passwort.";
+        }
+    } catch (error) {
+        console.error("Fehler beim Login-Vorgang:", error);
+        message.style.color = "red";
+        message.textContent = "Ein unerwarteter Fehler ist aufgetreten.";
+    }
+}
     </script>
 </body>
 </html>
