@@ -29,8 +29,10 @@
         }
 
         .login-container h2 {
-            margin-top: 5px; /* Abstand nach oben reduziert */
-            margin-bottom: 15px; /* Falls nötig */
+            margin-top: 5px;
+            /* Abstand nach oben reduziert */
+            margin-bottom: 15px;
+            /* Falls nötig */
             font-weight: 400;
             font-size: 18px;
             color: #333;
@@ -66,13 +68,13 @@
 
         .logo {
             width: 120px;
-            margin-bottom: 5px; /* Abstand nach unten reduziert */
+            margin-bottom: 5px;
+            /* Abstand nach unten reduziert */
         }
     </style>
 </head>
 
 <body>
-    
     <div class="login-container">
         <img src="images/htl-hallein-logo-transparent.png" alt="HTL Hallein Logo" class="logo" />
         <h2>Login</h2>
@@ -83,29 +85,38 @@
     </div>
 
     <script>
-        const users = [
-            { username: "admin", password: "1234" },
-            { username: "user", password: "password" }
-        ];
-
-        function login() {
+        async function login() {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            const message = document.getElementById("message");
+            const messageElement = document.getElementById("message");
 
-            const user = users.find(user => user.username === username && user.password === password);
+            try {
+                const response = await fetch("http://127.0.0.1:8000/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                    }),
+                });
 
-            if (user) {
-                message.style.color = "green";
-                message.textContent = "Login erfolgreich!";
-                setTimeout(() => {
-                    // Speichern des Logins im localStorage
-                    localStorage.setItem("loggedIn", "true");
-                    window.location.href = "dashboard.html";
-                }, 1000);
-            } else {
-                message.style.color = "red";
-                message.textContent = "Ungültiger Benutzername oder Passwort.";
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || "Login fehlgeschlagen");
+                }
+
+                const data = await response.json();
+                messageElement.style.color = "green";
+                messageElement.textContent = data.message;
+
+                // Leite zur Dashboard-Seite weiter, wenn der Login erfolgreich ist
+                window.location.href = "/dashboard.html";
+
+            } catch (error) {
+                messageElement.style.color = "red";
+                messageElement.textContent = error.message;
             }
         }
     </script>
