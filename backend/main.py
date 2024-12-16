@@ -33,7 +33,7 @@ class Schueler(Base):
     vorname = Column(String, nullable=False)
     nachname = Column(String, nullable=False)
     klasse = Column(String, nullable=False)
-    rfid_tag = Column(String, nullable=True)
+    tag_id = Column(String, nullable=True)  # Hier anpassen
     zugang = relationship("Zugang", back_populates="schueler")
 
 class Raum(Base):
@@ -71,7 +71,17 @@ class SchuelerRequest(BaseModel):
     vorname: str
     nachname: str
     klasse: str
-    rfid_tag: str
+    tag_id: str  # Hier anpassen
+
+class SchuelerResponse(BaseModel):
+    schueler_id: int
+    vorname: str
+    nachname: str
+    klasse: str
+    tag_id: str
+
+    class Config:
+        orm_mode = True
 
 class RaumRequest(BaseModel):
     raum_name: str
@@ -114,7 +124,7 @@ def login_user(login_request: LoginRequest):
     return {"message": f"Willkommen zurück, {login_request.username}!"}
 
 # Beispiel API-Routen (Schüler, Räume, RFID-Logik wie oben beschrieben)
-@app.get("/schueler", response_model=List[SchuelerRequest])
+@app.get("/schueler", response_model=List[SchuelerResponse])
 def get_schueler():
     db = SessionLocal()
     schueler = db.query(Schueler).all()
@@ -128,7 +138,7 @@ def add_schueler(schueler: SchuelerRequest):
         vorname=schueler.vorname,
         nachname=schueler.nachname,
         klasse=schueler.klasse,
-        rfid_tag=schueler.rfid_tag
+        tag_id=schueler.tag_id
     )
     db.add(neuer_schueler)
     db.commit()
@@ -152,16 +162,33 @@ def update_zugang(schueler_id: int, zugang: ZugangRequest):
         db.close()
         raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
 
-    neuer_zugang = Zugang(
-        schueler_id=schueler_id,
-        raum_id=zugang.raum_id,
-        datum=zugang.datum,
-        zeit=zugang.zeit
-    )
-    db.add(neuer_zugang)
-    db.commit()
-    db.close()
-    return {"message": "Zugang erfolgreich aktualisiert"}
+    # Prüfen, ob der Schüler bereits Zugang zu diesem Raum und Datum hat
+    existing_zugang = db.query(Zugang).filter(
+        Zugang.schueler_id == schueler_id,
+        Zugang.raum_id == zugang.raum_id,
+        Zugang.datum == zugang.datum
+    ).first()
+
+    if existing_zugang:
+        # Falls ein Zugang existiert, aktualisieren wir die Zeiten
+        existing_zugang.zeit_von = zugang.zeit.split('-')[0]
+        existing_zugang.zeit_bis = zugang.zeit.split('-')[1]
+        db.commit()
+        db.close()
+        return {"message": "Zugang erfolgreich aktualisiert"}
+    else:
+        # Falls kein Zugang existiert, fügen wir einen neuen Zugang hinzu
+        neuer_zugang = Zugang(
+            schueler_id=schueler_id,
+            raum_id=zugang.raum_id,
+            datum=zugang.datum,
+            zeit_von=zugang.zeit.split('-')[0],  # Zeit von
+            zeit_bis=zugang.zeit.split('-')[1]   # Zeit bis
+        )
+        db.add(neuer_zugang)
+        db.commit()
+        db.close()
+        return {"message": "Neuer Zugang erfolgreich hinzugefügt"}
 
 @app.post("/rfid_tags")
 def add_rfid_tag(rfid_tag: RFIDTagRequest):
@@ -184,8 +211,10 @@ def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str):
         Zugang.schueler_id == schueler.schueler_id,
         Zugang.raum_id == raum_id,
         Zugang.datum == datum,
-        Zugang.zeit == zeit
+        Zugang.zeit_von <= zeit,
+        Zugang.zeit_bis >= zeit
     ).first()
+
     db.close()
 
     if zugang is None:
