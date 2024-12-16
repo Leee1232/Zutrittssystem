@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 from typing import List
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 # Lade Umgebungsvariablen aus einer .env-Datei
 load_dotenv()
@@ -21,6 +22,19 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # FastAPI-App initialisieren
 app = FastAPI()
+
+# Erlaube alle Domains oder nur deine spezifische Webseite
+origins = [
+    "https://zutrittssystemweb.onrender.com",  # Erlaube nur die Web-Domain
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Erlaube nur diese Ursprünge
+    allow_credentials=True,
+    allow_methods=["*"],  # Erlaube alle HTTP-Methoden
+    allow_headers=["*"],  # Erlaube alle Header
+)
 
 @app.get("/")
 async def root():
