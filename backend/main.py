@@ -22,14 +22,14 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # FastAPI-App initialisieren
 app = FastAPI()
+# CORS-Konfiguration hinzufügen
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Erlaube nur diese Ursprünge
+    allow_origins=["*"],  # Erlaubt alle Ursprünge (kann auf bestimmte Ursprünge gesetzt werden)
     allow_credentials=True,
-    allow_methods=["*"],  # Erlaube alle HTTP-Methoden
-    allow_headers=["*"],  # Erlaube alle Header
+    allow_methods=["*"],  # Erlaubt alle HTTP-Methoden wie GET, POST, etc.
+    allow_headers=["*"],  # Erlaubt alle Header
 )
-
 @app.get("/")
 async def root():
     return {"message": "Api geht"}
