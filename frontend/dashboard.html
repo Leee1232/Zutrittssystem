@@ -4,11 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Willkommen auf dem Dashboard!</h1>
-    <p>Du bist erfolgreich eingeloggt.</p>
+    <div class="dashboard-container">
+        <h1>Willkommen auf dem Dashboard!</h1>
+        <p>Du bist erfolgreich eingeloggt.</p>
+        <!-- Logout Button -->
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Logout-Funktion
+            async function logout() {
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/logout', {
+                        method: 'POST',
+                        credentials: 'include',  // Falls du Cookies verwendest
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Logout fehlgeschlagen');
+                    }
+
+                    // Weiterleitung nach Logout zur Login-Seite
+                    window.location.href = '/index.html';  // Hier auf die Login-Seite weiterleiten
+                } catch (error) {
+                    console.error('Fehler beim Logout:', error);
+                }
+            }
+    </script>
 </body>
 
 </html>

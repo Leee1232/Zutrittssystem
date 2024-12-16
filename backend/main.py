@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Time
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from pydantic import BaseModel
@@ -21,6 +21,16 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # FastAPI-App initialisieren
 app = FastAPI()
+
+from fastapi.middleware.cors import CORSMiddleware
+# CORS-Konfiguration hinzufügen
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Erlaubt alle Ursprünge (kann auf bestimmte Ursprünge gesetzt werden)
+    allow_credentials=True,
+    allow_methods=["*"],  # Erlaubt alle HTTP-Methoden wie GET, POST, etc.
+    allow_headers=["*"],  # Erlaubt alle Header
+)
 
 @app.get("/")
 async def root():
@@ -98,6 +108,7 @@ class RegisterRequest(BaseModel):
     username: str
     password: str
 
+# API-Datenmodelle
 class LoginRequest(BaseModel):
     username: str
     password: str
@@ -115,13 +126,23 @@ def get_user_by_username(username: str):
     db.close()
     return user
 
+# Login-API
 @app.post("/login")
 def login_user(login_request: LoginRequest):
     user = get_user_by_username(login_request.username)
     if not user or not verify_password(login_request.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
-    
+
+    # Hier könnte ein JWT Token erzeugt und zurückgegeben werden
     return {"message": f"Willkommen zurück, {login_request.username}!"}
+
+# Logout-API
+@app.post("/logout")
+def logout_user(response: Response):
+    # Hier könntest du den Token löschen oder ungültig machen, falls du Token verwendest.
+    # Wenn du Cookies verwendest, kannst du sie hier löschen:
+    response.delete_cookie(key="access_token")  # Falls du Cookies nutzt
+    return {"message": "Erfolgreich abgemeldet"}
 
 # Beispiel API-Routen (Schüler, Räume, RFID-Logik wie oben beschrieben)
 @app.get("/schueler", response_model=List[SchuelerResponse])
