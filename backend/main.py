@@ -22,12 +22,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # FastAPI-App initialisieren
 app = FastAPI()
-
-# Erlaube alle Domains oder nur deine spezifische Webseite
-origins = [
-    "https://zutrittssystemweb.onrender.com",  # Erlaube nur die Web-Domain
-]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,  # Erlaube nur diese Ursprünge
