@@ -27,7 +27,13 @@
         }
         .login-container h2 {
             margin-top: 5px;
+<<<<<<< HEAD
             margin-bottom: 15px;
+=======
+            /* Abstand nach oben reduziert */
+            margin-bottom: 15px;
+            /* Falls nötig */
+>>>>>>> f6153c93d362f70d28fbd247c2bdbc16baddc6cf
             font-weight: 400;
             font-size: 18px;
             color: #333;
@@ -59,6 +65,10 @@
         .logo {
             width: 120px;
             margin-bottom: 5px;
+<<<<<<< HEAD
+=======
+            /* Abstand nach unten reduziert */
+>>>>>>> f6153c93d362f70d28fbd247c2bdbc16baddc6cf
         }
     </style>
 </head>
@@ -73,6 +83,7 @@
     </div>
 
     <script>
+<<<<<<< HEAD
 async function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
@@ -95,6 +106,41 @@ async function login() {
             const errorData = await response.text();
             console.error("Fehler beim Login: ", errorData);
             throw new Error("Login fehlgeschlagen");
+=======
+        async function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const messageElement = document.getElementById("message");
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || "Login fehlgeschlagen");
+                }
+
+                const data = await response.json();
+                messageElement.style.color = "green";
+                messageElement.textContent = data.message;
+
+                // Leite zur Dashboard-Seite weiter, wenn der Login erfolgreich ist
+                window.location.href = "/dashboard.html";
+
+            } catch (error) {
+                messageElement.style.color = "red";
+                messageElement.textContent = error.message;
+            }
+>>>>>>> f6153c93d362f70d28fbd247c2bdbc16baddc6cf
         }
 
         const data = await response.json();
