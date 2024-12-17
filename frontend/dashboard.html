@@ -7,26 +7,54 @@
 </head>
 
 <body>
-    <h1>Willkommen auf dem Dashboard!</h1>
-    <p>Du bist erfolgreich eingeloggt.</p>
+    <!-- Beispiel Dashboard (Vue.js) -->
+    <template>
+        <div>
+            <h1>Willkommen im Dashboard!</h1>
+            <p>Hier sind deine Daten:</p>
+            <div v-if="students.length > 0">
+                <ul>
+                    <li v-for="student in students" :key="schueler.schueler_id">
+                        {{ schueler.vorname }} {{ schueler.nachname }} ({{ schueler.klasse }})
+                    </li>
+                </ul>
+            </div>
+            <div v-else>
+                <p>Keine Daten gefunden</p>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        export default {
+            data() {
+                return {
+                    schueler: [],
+                };
+            },
+            created() {
+                this.fetchStudents();
+            },
+            methods: {
+                async fetchStudents() {
+                    try {
+                        const token = localStorage.getItem('access_token');
+                        const response = await fetch('https://zutrittssystem.onrender.com/schueler', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                            },
+                        });
+                        const data = await response.json();
+                        this.students = data;
+                    } catch (error) {
+                        console.error('Error fetching students:', error);
+                    }
+                },
+            },
+        };
+    </script>
+
 </body>
-<script>
-    const jwt = require('jsonwebtoken');
-
-    function isAuthenticated(req, res, next) {
-        const token = req.cookies['auth-token'];  // Beispiel: Token im Cookie
-        if (!token) {
-            return res.redirect('/login');
-        }
-        jwt.verify(token, 'deinGeheimerSchlüssel', (err, user) => {
-            if (err) {
-                return res.redirect('/login');
-            }
-            req.user = user;
-            next();
-        });
-    }
-
-</script>
 
 </html>

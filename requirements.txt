@@ -7,3 +7,6 @@ python-decouple==3.8
 python-dotenv==1.0.1
 passlib[bcrypt]==1.7.4
 aiofiles==23.1.0
+pyjwt==2.7.0        # Für JWT-Authentifizierung (falls du es verwendest)
+requests==2.31.0     # Für zusätzliche HTTP-Anfragen (optional)
+databases==0.7.1     # Für asynchrone Datenbankaufrufe (optional)

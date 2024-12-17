@@ -1,18 +1,26 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Time
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from pydantic import BaseModel
 from passlib.context import CryptContext
 from typing import List
 import os
+import jwt
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer
 
 # Lade Umgebungsvariablen aus einer .env-Datei
 load_dotenv()
 
 # Passwort-Hashing-Konfiguration
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# JWT-Konfiguration
+SECRET_KEY = os.getenv("SECRET_KEY", "mysecretkey")  # Dein geheimer Schlüssel für JWT
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Token läuft nach 30 Minuten ab
 
 # Datenbankverbindung konfigurieren
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -22,6 +30,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # FastAPI-App initialisieren
 app = FastAPI()
+
 # CORS-Konfiguration hinzufügen
 app.add_middleware(
     CORSMiddleware,
@@ -30,11 +39,57 @@ app.add_middleware(
     allow_methods=["*"],  # Erlaubt alle HTTP-Methoden wie GET, POST, etc.
     allow_headers=["*"],  # Erlaubt alle Header
 )
-@app.get("/")
-async def root():
-    return {"message": "Api geht"}
 
-# Datenbank-Modelle
+# OAuth2PasswordBearer ist für die Verwendung des Tokens als Bearer Token im Header gedacht
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Hilfsfunktionen zur Erstellung und Verifizierung von JWTs
+def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + expires_delta
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+def verify_token(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=401, detail="Invalid token or expired token")
+
+# Hilfsfunktionen für Benutzer
+def get_user_by_username(username: str):
+    db = SessionLocal()
+    user = db.query(Benutzer).filter(Benutzer.username == username).first()
+    db.close()
+    return user
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+# API-Datenmodelle
+class RegisterRequest(BaseModel):
+    username: str
+    password: str
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+# Benutzer-Modell für die Authentifizierung
+class User(BaseModel):
+    username: str
+
+# Funktion, um den aktuell authentifizierten Benutzer abzurufen
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    payload = verify_token(token)
+    user = payload.get("sub")
+    if user is None:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+    return user
+
+# Datenbank-Modelle (wie du sie bereits hast)
 class Schueler(Base):
     __tablename__ = 'schueler'
     schueler_id = Column(Integer, primary_key=True, index=True)
@@ -74,54 +129,9 @@ class Benutzer(Base):
 # Initialisiere die Datenbank
 Base.metadata.create_all(bind=engine)
 
-# API-Datenmodelle
-class SchuelerRequest(BaseModel):
-    vorname: str
-    nachname: str
-    klasse: str
-    tag_id: str  # Hier anpassen
-
-class SchuelerResponse(BaseModel):
-    schueler_id: int
-    vorname: str
-    nachname: str
-    klasse: str
-    tag_id: str
-
-    class Config:
-        orm_mode = True
-
-class RaumRequest(BaseModel):
-    raum_name: str
-
-class ZugangRequest(BaseModel):
-    raum_id: int
-    datum: str
-    zeit: str
-
-class RFIDTagRequest(BaseModel):
-    rfid_tag: str
-
-class RegisterRequest(BaseModel):
-    username: str
-    password: str
-
-class LoginRequest(BaseModel):
-    username: str
-    password: str
-
 # Hilfsfunktionen
 def get_password_hash(password):
     return pwd_context.hash(password)
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-def get_user_by_username(username: str):
-    db = SessionLocal()
-    user = db.query(Benutzer).filter(Benutzer.username == username).first()
-    db.close()
-    return user
 
 @app.post("/login")
 def login_user(login_request: LoginRequest):
@@ -129,18 +139,20 @@ def login_user(login_request: LoginRequest):
     if not user or not verify_password(login_request.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
     
-    return {"message": f"Willkommen zurück, {login_request.username}!"}
+    # Erstelle das JWT für den authentifizierten Benutzer
+    access_token = create_access_token(data={"sub": login_request.username})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 # Beispiel API-Routen (Schüler, Räume, RFID-Logik wie oben beschrieben)
 @app.get("/schueler", response_model=List[SchuelerResponse])
-def get_schueler():
+def get_schueler(current_user: str = Depends(get_current_user)):
     db = SessionLocal()
     schueler = db.query(Schueler).all()
     db.close()
     return schueler
 
 @app.post("/schueler")
-def add_schueler(schueler: SchuelerRequest):
+def add_schueler(schueler: SchuelerRequest, current_user: str = Depends(get_current_user)):
     db = SessionLocal()
     neuer_schueler = Schueler(
         vorname=schueler.vorname,
@@ -154,7 +166,7 @@ def add_schueler(schueler: SchuelerRequest):
     return {"message": "Schüler erfolgreich hinzugefügt"}
 
 @app.post("/raeume")
-def add_raum(raum: RaumRequest):
+def add_raum(raum: RaumRequest, current_user: str = Depends(get_current_user)):
     db = SessionLocal()
     neuer_raum = Raum(raum_name=raum.raum_name)
     db.add(neuer_raum)
@@ -163,7 +175,7 @@ def add_raum(raum: RaumRequest):
     return {"message": "Raum erfolgreich hinzugefügt"}
 
 @app.post("/zugang/{schueler_id}")
-def update_zugang(schueler_id: int, zugang: ZugangRequest):
+def update_zugang(schueler_id: int, zugang: ZugangRequest, current_user: str = Depends(get_current_user)):
     db = SessionLocal()
     schueler = db.query(Schueler).filter(Schueler.schueler_id == schueler_id).first()
     if not schueler:
@@ -199,7 +211,7 @@ def update_zugang(schueler_id: int, zugang: ZugangRequest):
         return {"message": "Neuer Zugang erfolgreich hinzugefügt"}
 
 @app.post("/rfid_tags")
-def add_rfid_tag(rfid_tag: RFIDTagRequest):
+def add_rfid_tag(rfid_tag: RFIDTagRequest, current_user: str = Depends(get_current_user)):
     db = SessionLocal()
     neuer_tag = RFIDTag(rfid_tag=rfid_tag.rfid_tag)
     db.add(neuer_tag)
@@ -208,7 +220,7 @@ def add_rfid_tag(rfid_tag: RFIDTagRequest):
     return {"message": "RFID-Tag erfolgreich hinzugefügt"}
 
 @app.get("/check_zugang/{rfid_tag}/{raum_id}/{datum}/{zeit}")
-def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str):
+def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str, current_user: str = Depends(get_current_user)):
     db = SessionLocal()
     schueler = db.query(Schueler).filter(Schueler.rfid_tag == rfid_tag).first()
     if not schueler:
