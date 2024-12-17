@@ -10,5 +10,23 @@
     <h1>Willkommen auf dem Dashboard!</h1>
     <p>Du bist erfolgreich eingeloggt.</p>
 </body>
+<script>
+    const jwt = require('jsonwebtoken');
+
+    function isAuthenticated(req, res, next) {
+        const token = req.cookies['auth-token'];  // Beispiel: Token im Cookie
+        if (!token) {
+            return res.redirect('/login');
+        }
+        jwt.verify(token, 'deinGeheimerSchlüssel', (err, user) => {
+            if (err) {
+                return res.redirect('/login');
+            }
+            req.user = user;
+            next();
+        });
+    }
+
+</script>
 
 </html>
