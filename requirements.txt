@@ -1,13 +1,11 @@
 fastapi==0.95.2
 uvicorn==0.22.0
 psycopg2==2.9.7
+sqlalchemy==2.0.18
 pydantic==1.10.12
 python-decouple==3.8
 python-dotenv==1.0.1
 passlib[bcrypt]==1.7.4
 aiofiles==23.1.0
-pyjwt==2.7.0        # Für JWT-Authentifizierung (falls du es verwendest)
-requests==2.31.0     # Für zusätzliche HTTP-Anfragen (optional)
-sqlalchemy==1.4.42
-databases==0.7.0
-
+pyjwt==2.7.0
+requests==2.31.0
