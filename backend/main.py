@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Response
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Time
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from pydantic import BaseModel
@@ -31,6 +31,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # FastAPI-App initialisieren
 app = FastAPI()
 
+from fastapi.middleware.cors import CORSMiddleware
 # CORS-Konfiguration hinzufügen
 app.add_middleware(
     CORSMiddleware,
@@ -40,56 +41,11 @@ app.add_middleware(
     allow_headers=["*"],  # Erlaubt alle Header
 )
 
-# OAuth2PasswordBearer ist für die Verwendung des Tokens als Bearer Token im Header gedacht
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+@app.get("/")
+async def root():
+    return {"message": "Api geht"}
 
-# Hilfsfunktionen zur Erstellung und Verifizierung von JWTs
-def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + expires_delta
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-def verify_token(token: str):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail="Invalid token or expired token")
-
-# Hilfsfunktionen für Benutzer
-def get_user_by_username(username: str):
-    db = SessionLocal()
-    user = db.query(Benutzer).filter(Benutzer.username == username).first()
-    db.close()
-    return user
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-# API-Datenmodelle
-class RegisterRequest(BaseModel):
-    username: str
-    password: str
-
-class LoginRequest(BaseModel):
-    username: str
-    password: str
-
-# Benutzer-Modell für die Authentifizierung
-class User(BaseModel):
-    username: str
-
-# Funktion, um den aktuell authentifizierten Benutzer abzurufen
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    payload = verify_token(token)
-    user = payload.get("sub")
-    if user is None:
-        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
-    return user
-
-# Datenbank-Modelle (wie du sie bereits hast)
+# Datenbank-Modelle
 class Schueler(Base):
     __tablename__ = 'schueler'
     schueler_id = Column(Integer, primary_key=True, index=True)
@@ -129,19 +85,73 @@ class Benutzer(Base):
 # Initialisiere die Datenbank
 Base.metadata.create_all(bind=engine)
 
+# API-Datenmodelle
+class SchuelerRequest(BaseModel):
+    vorname: str
+    nachname: str
+    klasse: str
+    tag_id: str  # Hier anpassen
+
+class SchuelerResponse(BaseModel):
+    schueler_id: int
+    vorname: str
+    nachname: str
+    klasse: str
+    tag_id: str
+
+    class Config:
+        orm_mode = True
+
+class RaumRequest(BaseModel):
+    raum_name: str
+
+class ZugangRequest(BaseModel):
+    raum_id: int
+    datum: str
+    zeit: str
+
+class RFIDTagRequest(BaseModel):
+    rfid_tag: str
+
+class RegisterRequest(BaseModel):
+    username: str
+    password: str
+
+# API-Datenmodelle
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
 # Hilfsfunktionen
 def get_password_hash(password):
     return pwd_context.hash(password)
 
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_user_by_username(username: str):
+    db = SessionLocal()
+    user = db.query(Benutzer).filter(Benutzer.username == username).first()
+    db.close()
+    return user
+
+# Login-API
 @app.post("/login")
 def login_user(login_request: LoginRequest):
     user = get_user_by_username(login_request.username)
     if not user or not verify_password(login_request.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
-    
-    # Erstelle das JWT für den authentifizierten Benutzer
-    access_token = create_access_token(data={"sub": login_request.username})
-    return {"access_token": access_token, "token_type": "bearer"}
+
+    # Hier könnte ein JWT Token erzeugt und zurückgegeben werden
+    return {"message": f"Willkommen zurück, {login_request.username}!"}
+
+# Logout-API
+@app.post("/logout")
+def logout_user(response: Response):
+    # Hier könntest du den Token löschen oder ungültig machen, falls du Token verwendest.
+    # Wenn du Cookies verwendest, kannst du sie hier löschen:
+    response.delete_cookie(key="access_token")  # Falls du Cookies nutzt
+    return {"message": "Erfolgreich abgemeldet"}
 
 # Beispiel API-Routen (Schüler, Räume, RFID-Logik wie oben beschrieben)
 @app.get("/schueler", response_model=List[SchuelerResponse])
