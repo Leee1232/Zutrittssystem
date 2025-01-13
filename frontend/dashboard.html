@@ -43,24 +43,64 @@
     </div>
 
     <script>
+        // Funktion zur Token-Überprüfung
+        function checkAuth() {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                // Kein Token vorhanden, weiterleiten zur Login-Seite
+                window.location.href = '/index.html';
+            } else {
+                // Optional: Token-Validierung beim Server anfragen
+                fetch('http://127.0.0.1:8000/check_token', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        // Token ungültig oder abgelaufen, weiterleiten zur Login-Seite
+                        window.location.href = '/index.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Fehler bei der Token-Überprüfung:', error);
+                    window.location.href = '/index.html';
+                });
+            }
+        }
+
+        // Überprüfung beim Laden der Seite
+        window.onload = checkAuth;
+
         // Logout-Funktion
-            async function logout() {
+        async function logout() {
+            const token = localStorage.getItem('access_token');
+            if (token) {
                 try {
                     const response = await fetch('http://127.0.0.1:8000/logout', {
                         method: 'POST',
-                        credentials: 'include',  // Falls du Cookies verwendest
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
                     });
 
-                    if (!response.ok) {
-                        throw new Error('Logout fehlgeschlagen');
+                    if (response.ok) {
+                        localStorage.removeItem('access_token');  // Token aus dem Speicher entfernen
+                        console.log("Erfolgreich ausgeloggt."); // Debug-Ausgabe
+                        window.location.href = '/index.html';  // Weiterleitung zur Login-Seite
+                    } else {
+                        console.error("Logout fehlgeschlagen.");
                     }
-
-                    // Weiterleitung nach Logout zur Login-Seite
-                    window.location.href = '/index.html';  // Hier auf die Login-Seite weiterleiten
                 } catch (error) {
-                    console.error('Fehler beim Logout:', error);
+                    console.error("Fehler beim Logout:", error);
                 }
+            } else {
+                // Wenn kein Token vorhanden ist, gehe direkt zur Login-Seite
+                window.location.href = '/index.html';
             }
+        }
     </script>
 </body>
 
