@@ -75,52 +75,69 @@
     <div class="login-container">
         <img src="images/htl-hallein-logo-transparent.png" alt="HTL Hallein Logo" class="logo" />
         <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username" />
-        <input type="password" id="password" placeholder="Password" />
-        <button onclick="login()">Login</button>
-        <div class="message" id="message"></div>
+        <form id="login-form" action="javascript:void(0);" method="post">
+            <div class="input-container">
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-container">
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="error-message"></div>
+        <div id="success-message"></div>
     </div>
 
     <script>
+        // Login-Funktion
         async function login() {
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            const messageElement = document.getElementById("message");
+
+            const loginData = {
+                username: username,
+                password: password
+            };
 
             try {
-                // API-Aufruf zum Backend-Login
-                const response = await fetch("https://zutrittssystem.onrender.com/login", {
-                    method: "POST",
+                const response = await fetch('http://127.0.0.1:8000/login', {
+                    method: 'POST',
                     headers: {
-                        "Content-Type": "application/json",
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                    }),
+                    body: JSON.stringify(loginData)
                 });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.detail || "Login fehlgeschlagen");
-                }
-
                 const data = await response.json();
-                messageElement.style.color = "green";
-                messageElement.textContent = data.message;
 
-                // Speichern des JWT-Tokens im LocalStorage
-                const token = data.access_token;
-                localStorage.setItem("access_token", token);
+                // Überprüfen, ob der Status 200 OK zurückgegeben wurde
+                if (response.ok) {
+                    // Erfolgreiches Login, Token speichern
+                    localStorage.setItem('access_token', data.access_token);
 
-                // Leite zur Dashboard-Seite weiter, wenn der Login erfolgreich ist
-                window.location.href = "/dashboard.html";
+                    // Erfolgreiche Nachricht anzeigen
+                    document.getElementById("success-message").textContent = `Willkommen zurück, ${username}!`;
+                    document.getElementById("error-message").textContent = '';
 
+                    // Weiterleitung zur Dashboard-Seite
+                    window.location.href = '/dashboard.html';  // oder zu deiner gewünschten Seite
+                } else {
+                    // Fehlerhafte Anmeldedaten
+                    document.getElementById("error-message").textContent = data.detail || "Anmeldung fehlgeschlagen.";
+                    document.getElementById("success-message").textContent = '';
+                }
             } catch (error) {
-                messageElement.style.color = "red";
-                messageElement.textContent = error.message;
+                console.error('Fehler beim Login:', error);
+                document.getElementById("error-message").textContent = "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.";
+                document.getElementById("success-message").textContent = '';
             }
         }
+
+        // Event-Listener für das Formular
+        document.getElementById("login-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            login();
+        });
     </script>
 </body>
 

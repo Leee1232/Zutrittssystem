@@ -1,8 +1,8 @@
 
 starten der server
 
-python3 -m http.server 8000
-http://localhost:8000
+python3 -m http.server 8000 oder python -m http.server 8080
+http://localhost:8080
 
 Datenbank: 
 npm install pg express
