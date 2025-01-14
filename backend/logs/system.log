@@ -1,0 +1,6 @@
+2025-01-14 15:19:30,036 - DEBUG - Logger initialized successfully.
+2025-01-14 15:20:01,744 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM2ODY2MjAxfQ.Iovv215N1i91U0FCn92_ChKtO6QVZcm5T6uAfaXU91Q
+2025-01-14 15:20:01,745 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-14 15:20:15,012 - WARNING - Token fehlt oder ungültig
+2025-01-14 15:29:38,727 - DEBUG - Logger initialized successfully.
+2025-01-14 15:33:20,964 - DEBUG - Logger initialized successfully.

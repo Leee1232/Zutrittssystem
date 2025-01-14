@@ -68,6 +68,10 @@
             width: 120px;
             margin-bottom: 5px;
         }
+
+        .input-container input::placeholder {
+            color: gray;
+        }
     </style>
 </head>
 
@@ -77,10 +81,10 @@
         <h2>Login</h2>
         <form id="login-form" action="javascript:void(0);" method="post">
             <div class="input-container">
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" placeholder="Benutzername" required>
             </div>
             <div class="input-container">
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" placeholder="Passwort" required>
             </div>
             <button type="submit">Login</button>
         </form>
