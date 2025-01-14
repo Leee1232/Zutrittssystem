@@ -19,6 +19,8 @@ from fastapi import Request
 from fastapi import HTTPException, Depends
 from fastapi.responses import FileResponse
 import os
+from logger import logger  # Importiere den Logger aus der logger.py Datei
+
 
 # Lade Umgebungsvariablen aus der .env Datei
 load_dotenv()
@@ -142,6 +144,7 @@ def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes
     to_encode.update({"exp": expire})  # Ablaufzeit in die Nutzdaten einfügen
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)  # JWT codieren
     print(encoded_jwt)
+    logger.info(f"Token erstellt: {encoded_jwt}")
     return encoded_jwt
 
 def verify_access_token(token: str):
@@ -151,10 +154,13 @@ def verify_access_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])  # Token dekodieren
         print(payload)
+        logger.info(f"Token verifiziert: {payload}")
         return payload  # Rückgabe der Payload (Benutzername)
     except jwt.ExpiredSignatureError:
+        logger.warning("Token abgelaufen")
         raise HTTPException(status_code=401, detail="Token abgelaufen")  # Fehler, wenn Token abgelaufen ist
     except jwt.JWTError:
+        logger.error("Ungültiges Token")
         raise HTTPException(status_code=401, detail="Ungültiges Token")  # Fehler bei ungültigem Token
 
 # Funktion zur Extraktion des aktuellen Benutzers
@@ -165,11 +171,13 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     payload = verify_access_token(token)  # Überprüfe das Token
     username: str = payload.get("sub")  # Benutzername aus der Payload extrahieren
     if username is None:
+        logger.error("Benutzername fehlt im Token")
         raise HTTPException(status_code=401, detail="Ungültiges Token")  # Fehler, wenn der Benutzername nicht vorhanden ist
     return username  # Benutzername zurückgeben
 
 @app.get("/check_token")
 def check_token(current_user: str = Depends(get_current_user)):
+    logger.info(f"Token von {current_user} ist gültig.")
     return {"message": "Token gültig"}
     
 # Passwort-Hashing und Verifikation
@@ -194,11 +202,12 @@ def get_db():
 def login_user(login_request: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == login_request.username).first()
     if not user or not verify_password(login_request.password, user.hashed_password):
+        logger.warning(f"Login fehlgeschlagen für Benutzer {login_request.username}")
         raise HTTPException(status_code=401, detail="Ungültiger Benutzername oder Passwort")
 
     # Erstelle das JWT-Token mit einer Ablaufzeit von 30 Minuten
     access_token = create_access_token(data={"sub": user.username})
-
+    logger.info(f"Benutzer {user.username} hat sich erfolgreich eingeloggt.")
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.post("/register")
@@ -206,6 +215,7 @@ def register_user(register_request: RegisterRequest, db: Session = Depends(get_d
     # Check if username already exists
     existing_user = db.query(User).filter(User.username == register_request.username).first()
     if existing_user:
+        logger.warning(f"Benutzername {register_request.username} bereits vergeben.")
         raise HTTPException(status_code=400, detail="Benutzername bereits vergeben")
     
     # Hash the password (replace with a secure hashing method like bcrypt in production)
@@ -221,7 +231,7 @@ def register_user(register_request: RegisterRequest, db: Session = Depends(get_d
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    
+    logger.info(f"Neuer Benutzer {register_request.username} erfolgreich registriert.")
     return {"message": f"Benutzer {register_request.username} erfolgreich registriert"}
 
 @app.post("/logout")
@@ -229,7 +239,9 @@ async def logout_user(request: Request):
     token = request.headers.get("Authorization")  # JWT-Token aus dem Header bekommen
     if token:
         token_blacklist.add(token)  # Token zur Blacklist hinzufügen
+        logger.info("Logout erfolgreich.")
         return {"message": "Logout erfolgreich"}
+    logger.warning("Token fehlt oder ungültig")
     raise HTTPException(status_code=401, detail="Token fehlt oder ungültig")
 
 
@@ -244,7 +256,8 @@ def add_schueler(schueler: SchuelerRequest, db: Session = Depends(get_db)):
         db.add(rfid_tag)
         db.commit()
         db.refresh(rfid_tag)
-    
+        logger.info(f"RFID-Tag {schueler.tag_id} erstellt.")
+
     # Create new Schueler with the associated RFID tag
     neuer_schueler = Schueler(
         vorname=schueler.vorname,
@@ -257,7 +270,7 @@ def add_schueler(schueler: SchuelerRequest, db: Session = Depends(get_db)):
     db.add(neuer_schueler)
     db.commit()
     db.refresh(neuer_schueler)
-    
+    logger.info(f"Schüler {schueler.vorname} {schueler.nachname} erfolgreich hinzugefügt.")
     return {
         "message": "Schüler erfolgreich hinzugefügt",
         "schueler_id": neuer_schueler.schueler_id
@@ -267,7 +280,8 @@ def add_schueler(schueler: SchuelerRequest, db: Session = Depends(get_db)):
 def get_schueler(db: Session = Depends(get_db)):
     # Fetch Schueler with only vorname, nachname, and klasse
     schueler = db.query(Schueler).all()
-    
+    logger.info("Alle Schüler abgerufen.")
+
     # Manually convert to response model to ensure all data is included
     return [
         SchuelerResponse(
@@ -283,6 +297,7 @@ def get_schueler_by_id(schueler_id: int, db: Session = Depends(get_db)):
     schueler = db.query(Schueler).filter(Schueler.schueler_id == schueler_id).first()
     
     if not schueler:
+        logger.warning(f"Schüler mit ID {schueler_id} nicht gefunden.")
         raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
     
     return SchuelerResponse(
@@ -296,12 +311,14 @@ def add_raum(raum: RaumRequest, db: Session = Depends(get_db)):
     neuer_raum = Raum(raum_name=raum.raum_name)
     db.add(neuer_raum)
     db.commit()
+    logger.info(f"Raum {raum.raum_name} erfolgreich hinzugefügt.")
     return {"message": "Raum erfolgreich hinzugefügt"}
 
 @app.post("/zugang/{schueler_id}")
 def update_zugang(schueler_id: int, zugang: ZugangRequest, db: Session = Depends(get_db)):
     schueler = db.query(Schueler).filter(Schueler.schueler_id == schueler_id).first()
     if not schueler:
+        logger.warning(f"Schüler mit ID {schueler_id} nicht gefunden.")
         raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
 
     # Prüfen, ob der Schüler bereits Zugang hat
@@ -316,6 +333,7 @@ def update_zugang(schueler_id: int, zugang: ZugangRequest, db: Session = Depends
         existing_zugang.zeit_von = zugang.zeit.split('-')[0]
         existing_zugang.zeit_bis = zugang.zeit.split('-')[1]
         db.commit()
+        logger.info(f"Zugang für Schüler {schueler_id} erfolgreich aktualisiert.")
         return {"message": "Zugang erfolgreich aktualisiert"}
     else:
         # Neuen Zugang hinzufügen
@@ -328,6 +346,7 @@ def update_zugang(schueler_id: int, zugang: ZugangRequest, db: Session = Depends
         )
         db.add(neuer_zugang)
         db.commit()
+        logger.info(f"Neuer Zugang für Schüler {schueler_id} hinzugefügt.")
         return {"message": "Neuer Zugang erfolgreich hinzugefügt"}
 
 @app.post("/rfid_tags")
@@ -335,12 +354,14 @@ def add_rfid_tag(rfid_tag: RFIDTagRequest, db: Session = Depends(get_db)):
     neuer_tag = RfidTag(rfid_tag=rfid_tag.rfid_tag)
     db.add(neuer_tag)
     db.commit()
+    logger.info(f"RFID-Tag {rfid_tag.rfid_tag} erfolgreich hinzugefügt.")
     return {"message": "RFID-Tag erfolgreich hinzugefügt"}
 
 @app.get("/check_zugang/{rfid_tag}/{raum_id}/{datum}/{zeit}")
 def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str, db: Session = Depends(get_db)):
     schueler = db.query(Schueler).filter(Schueler.rfid_tag == rfid_tag).first()
     if not schueler:
+        logger.warning(f"Schüler mit RFID-Tag {rfid_tag} nicht gefunden.")
         raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
 
     zugang = db.query(Zugang).filter(
@@ -352,7 +373,9 @@ def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str, db: Session
     ).first()
 
     if zugang is None:
+        logger.info("Zugang nicht erlaubt.")
         return {"message": "Zugang nicht erlaubt"}
+    logger.info("Zugang erlaubt.")
     return {"message": "Zugang erlaubt"}
 
 # Wenn du die Tabellen noch nicht erstellt hast, kannst du dies hier tun:
