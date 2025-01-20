@@ -181,22 +181,22 @@
 
         async function fetchRaeume() {
             try {
-                const response = await fetch('http://localhost:8000/raeume');
+                const response = await fetch('http://localhost:8000/klassen');
                 if (!response.ok) {
-                    throw new Error('Fehler beim Abrufen der Räume');
+                    throw new Error('Fehler beim Abrufen der Klassen');
                 }
                 raeume = await response.json();
                 const klasseSelect = document.getElementById('klasse');
                 klasseSelect.innerHTML = '<option value="">Bitte wählen...</option>'; 
-                raeume.forEach(raum => {
+                raeume.forEach(klasse => {
                     const option = document.createElement('option');
-                    option.value = raum.raum_name;
-                    option.textContent = raum.raum_name;
+                    option.value = klasse.klasse_name;
+                    option.textContent = klasse.klasse_name;
                     klasseSelect.appendChild(option);
                 });
             } catch (error) {
-                console.error('Fehler beim Abrufen der Raumdaten:', error);
-                alert('Fehler beim Laden der Räume. Bitte versuchen Sie es später erneut.');
+                console.error('Fehler beim Abrufen der Klassendaten:', error);
+                alert('Fehler beim Laden der Klassen. Bitte versuchen Sie es später erneut.');
             }
         }
 
@@ -237,6 +237,8 @@
                        (nachname === '' || matchesNachname);
             });
 
+            console.log('Filtered students:', filteredStudents);
+
             if (filteredStudents.length === 0) {
                 studentsList.innerHTML += '<p>Keine Schüler gefunden.</p>';
                 return;
@@ -248,7 +250,7 @@
                 studentDiv.innerHTML = `
                     <input type="checkbox" 
                            id="student-${student.vorname}-${student.nachname}" 
-                           value="${student.id}" 
+                           value="${student.schueler_id}" 
                            onchange="updateSelectedStudents(this)">
                     <label for="student-${student.vorname}-${student.nachname}">
                         ${student.vorname} ${student.nachname} (${student.klasse})
@@ -273,8 +275,14 @@
                 return;
             }
             
-            // Redirect to zweiteSeite.html with selected students
-            window.location.href = `zweiteSeite.html?schueler=${selectedStudents.join(',')}`;
+            // Stelle sicher, dass die IDs als Strings gespeichert werden
+            const studentIdsToStore = selectedStudents.map(id => String(id));
+            
+            // Speichere die Schüler-IDs im localStorage
+            localStorage.setItem('selectedStudents', JSON.stringify(studentIdsToStore));
+            
+            // Weiterleitung zur zweiten Seite
+            window.location.href = '/zweiteSeite.html';
         }
 
         async function onload() {
