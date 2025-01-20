@@ -89,6 +89,11 @@ class User(Base):
     username = Column(String(255), unique=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
 
+class Klasse(Base):
+    __tablename__ = 'klassen'
+    klasse_id = Column(Integer, primary_key=True, index=True)
+    klasse_name = Column(String(255), unique=True, nullable=False)
+
 # Pydantic-Modelle
 class SchuelerRequest(BaseModel):
     vorname: str
@@ -97,6 +102,7 @@ class SchuelerRequest(BaseModel):
     tag_id: str
 
 class SchuelerResponse(BaseModel):
+    schueler_id: int
     vorname: str
     nachname: str
     klasse: str
@@ -123,7 +129,8 @@ class LoginRequest(BaseModel):
     username: str
     password: str
 
-
+class KlasseRequest(BaseModel):
+    klasse_name: str
 
 # Secret Key für das JWT (sollte sicher und zufällig sein)
 SECRET_KEY = os.getenv('SECRET_KEY', 'mysecretkey')
@@ -285,6 +292,7 @@ def get_schueler(db: Session = Depends(get_db)):
     # Manually convert to response model to ensure all data is included
     return [
         SchuelerResponse(
+            schueler_id=s.schueler_id,
             vorname=s.vorname,
             nachname=s.nachname,
             klasse=s.klasse
@@ -301,6 +309,7 @@ def get_schueler_by_id(schueler_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
     
     return SchuelerResponse(
+        schueler_id=schueler.schueler_id,
         vorname=schueler.vorname,
         nachname=schueler.nachname,
         klasse=schueler.klasse
@@ -405,6 +414,7 @@ def get_alle_schueler(db: Session = Depends(get_db)):
         schueler = db.query(Schueler).all()
         return [
             {
+                "schueler_id": s.schueler_id,
                 "vorname": s.vorname,
                 "nachname": s.nachname,
                 "klasse": s.klasse
@@ -413,6 +423,50 @@ def get_alle_schueler(db: Session = Depends(get_db)):
     except Exception as e:
         logger.error(f"Fehler beim Abrufen der Schüler: {e}")
         raise HTTPException(status_code=500, detail="Fehler beim Abrufen der Schüler")
+
+@app.post("/klassen")
+def add_klasse(klasse: KlasseRequest, db: Session = Depends(get_db)):
+    """
+    Fügt eine neue Klasse zur Datenbank hinzu.
+    
+    :param klasse: Klasse-Objekt mit Klassenname
+    :param db: Datenbankverbindung
+    :return: Erfolgsmeldung
+    """
+    try:
+        # Überprüfen, ob Klasse bereits existiert
+        existing_klasse = db.query(Klasse).filter(Klasse.klasse_name == klasse.klasse_name).first()
+        if existing_klasse:
+            logger.warning(f"Klasse {klasse.klasse_name} existiert bereits.")
+            raise HTTPException(status_code=400, detail="Klasse existiert bereits")
+
+        neue_klasse = Klasse(klasse_name=klasse.klasse_name)
+        db.add(neue_klasse)
+        db.commit()
+        db.refresh(neue_klasse)
+        logger.info(f"Klasse {klasse.klasse_name} erfolgreich hinzugefügt.")
+        return {"message": "Klasse erfolgreich hinzugefügt"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Fehler beim Hinzufügen der Klasse: {e}")
+        raise HTTPException(status_code=500, detail="Fehler beim Hinzufügen der Klasse")
+
+@app.get("/klassen", response_model=List[KlasseRequest])
+def get_klassen(db: Session = Depends(get_db)):
+    """
+    Ruft alle Klassen aus der Datenbank ab.
+    
+    :param db: Datenbankverbindung
+    :return: Liste aller Klassen
+    """
+    try:
+        klassen = db.query(Klasse).all()
+        return [{"klasse_name": klasse.klasse_name} for klasse in klassen]
+    except Exception as e:
+        logger.error(f"Fehler beim Abrufen der Klassen: {e}")
+        raise HTTPException(status_code=500, detail="Fehler beim Abrufen der Klassen")
 
 # Wenn du die Tabellen noch nicht erstellt hast, kannst du dies hier tun:
 Base.metadata.create_all(bind=engine)

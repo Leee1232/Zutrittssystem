@@ -65,3 +65,57 @@
 2025-01-14 16:23:47,145 - INFO - Alle Schüler abgerufen.
 2025-01-14 16:25:35,995 - INFO - Alle Schüler abgerufen.
 2025-01-14 16:27:46,342 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:00:25,447 - DEBUG - Logger initialized successfully.
+2025-01-20 08:01:30,420 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzU4MjkwfQ.rt99M71K8dlLZCT9xbvwuQluODtwai4AgMjwqlRxgao
+2025-01-20 08:01:30,422 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 08:01:31,048 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737358290}
+2025-01-20 08:01:31,051 - INFO - Token von leon ist gültig.
+2025-01-20 08:01:38,701 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:02:27,936 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:10:47,305 - DEBUG - Logger initialized successfully.
+2025-01-20 08:14:35,109 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:15:06,018 - WARNING - Schüler mit ID 1 nicht gefunden.
+2025-01-20 08:15:26,235 - WARNING - Schüler mit ID 1 nicht gefunden.
+2025-01-20 08:15:34,938 - WARNING - Schüler mit ID 1 nicht gefunden.
+2025-01-20 08:16:24,301 - INFO - Klasse 5AHWII erfolgreich hinzugefügt.
+2025-01-20 08:16:51,256 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:17:38,402 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:18:34,965 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:19:13,477 - INFO - Raum 308 erfolgreich hinzugefügt.
+2025-01-20 08:19:34,110 - DEBUG - Logger initialized successfully.
+2025-01-20 08:22:01,253 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737358290}
+2025-01-20 08:22:01,255 - INFO - Token von leon ist gültig.
+2025-01-20 08:22:04,165 - INFO - Logout erfolgreich.
+2025-01-20 08:23:31,176 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:24:26,392 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:32:07,520 - DEBUG - Logger initialized successfully.
+2025-01-20 08:32:33,050 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-20 08:32:36,582 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYwMTU2fQ.48qZwPpPIuIyFoZRLz9CuuQcguQn3S-F27ioDB1_av8
+2025-01-20 08:32:36,584 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 08:32:36,908 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737360156}
+2025-01-20 08:32:36,909 - INFO - Token von leon ist gültig.
+2025-01-20 08:32:39,767 - INFO - Logout erfolgreich.
+2025-01-20 08:32:43,788 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:40:31,997 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:41:10,899 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:42:02,674 - WARNING - Schüler mit ID 1 nicht gefunden.
+2025-01-20 08:44:00,515 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:47:25,797 - DEBUG - Logger initialized successfully.
+2025-01-20 08:47:29,458 - DEBUG - Logger initialized successfully.
+2025-01-20 08:47:36,096 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:48:17,726 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:49:48,076 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:50:56,938 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:52:09,399 - INFO - Alle Schüler abgerufen.
+2025-01-20 08:52:26,086 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:02:47,788 - DEBUG - Logger initialized successfully.
+2025-01-20 09:03:31,792 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:03:44,593 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:05:26,463 - DEBUG - Logger initialized successfully.
+2025-01-20 09:05:31,469 - DEBUG - Logger initialized successfully.
+2025-01-20 09:05:50,897 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:06:04,462 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:06:10,263 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:07:07,570 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:07:54,747 - INFO - Alle Schüler abgerufen.
+2025-01-20 09:08:06,879 - DEBUG - Logger initialized successfully.
