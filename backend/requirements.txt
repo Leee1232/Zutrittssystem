@@ -1,0 +1,8 @@
+fastapi==0.95.2
+pydantic==1.10.2
+sqlalchemy==1.4.41
+python-dotenv==1.0.0
+bcrypt==4.0.1
+redis==5.0.0
+pyjwt==2.6.0
+uvicorn==0.22.0  # Für die Entwicklung und das Hosten der FastAPI-App
