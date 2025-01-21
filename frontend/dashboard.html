@@ -40,6 +40,8 @@
         <p>Du bist erfolgreich eingeloggt.</p>
         <!-- Logout Button -->
         <button onclick="logout()">Logout</button>
+        <!-- New button to navigate to ersteSeite.html -->
+        <button onclick="navigateToErsteSeite()">Schüler Auswahl</button>
     </div>
 
     <script>
@@ -100,6 +102,11 @@
                 // Wenn kein Token vorhanden ist, gehe direkt zur Login-Seite
                 window.location.href = '/index.html';
             }
+        }
+
+        // Function to navigate to ersteSeite.html
+        function navigateToErsteSeite() {
+            window.location.href = '/ersteSeite.html';
         }
     </script>
 </body>
