@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raum Auswahl</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #ffeb3b;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 70px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .rooms-list {
+            margin-top: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .rooms-list .room {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .rooms-list .room input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BENUTZERNAME</h1>
+    </div>
+
+    <div class="container">
+        <h2>Raum Auswahl</h2>
+
+        <div class="rooms-list" id="rooms-list">
+            <h3>Räume</h3>
+        </div>
+
+        <div class="buttons">
+            <button class="cancel" onclick="window.location.href='ersteSeite.html'">ZURÜCK</button>
+            <button class="next" onclick="selectRooms()">WEITER</button>
+        </div>
+    </div>
+
+    <script>
+        let raeume = [];
+        let selectedRooms = [];
+
+        // Hole Räume vom Server
+        async function fetchRaeume() {
+            try {
+                const response = await fetch('http://localhost:8000/raeume');
+                if (!response.ok) {
+                    throw new Error('Fehler beim Abrufen der Räume');
+                }
+                raeume = await response.json();
+                
+                const roomsList = document.getElementById('rooms-list');
+                raeume.forEach(raum => {
+                    const roomDiv = document.createElement('div');
+                    roomDiv.classList.add('room');
+                    roomDiv.innerHTML = `
+                        <input type="checkbox" 
+                               id="room-${raum.raum_name}" 
+                               value="${raum.raum_name}" 
+                               onchange="updateSelectedRooms(this)">
+                        <label for="room-${raum.raum_name}">
+                            ${raum.raum_name}
+                        </label>
+                    `;
+                    roomsList.appendChild(roomDiv);
+                });
+            } catch (error) {
+                console.error('Fehler beim Abrufen der Raumdaten:', error);
+                alert('Fehler beim Laden der Räume. Bitte versuchen Sie es später erneut.');
+            }
+        }
+
+        // Aktualisiere ausgewählte Räume
+        function updateSelectedRooms(checkbox) {
+            const roomName = checkbox.value;
+            if (checkbox.checked) {
+                selectedRooms.push(roomName);
+            } else {
+                selectedRooms = selectedRooms.filter(room => room !== roomName);
+            }
+        }
+
+        // Verarbeite Raumauswahl
+        function selectRooms() {
+            if (selectedRooms.length === 0) {
+                alert('Bitte wählen Sie mindestens einen Raum aus.');
+                return;
+            }
+            
+            // TODO: Implementiere die weitere Verarbeitung
+            console.log('Ausgewählte Räume:', selectedRooms);
+            // Beispiel: Weiterleitung zur nächsten Seite
+            // window.location.href = `dritteSeite.html?raeume=${selectedRooms.join(',')}`;
+        }
+
+        // Initialisiere Seite
+        async function onload() {
+            await fetchRaeume();
+        }
+
+        // Lade Daten beim Seitenaufruf
+        document.addEventListener('DOMContentLoaded', onload);
+    </script>
+</body>
+</html>

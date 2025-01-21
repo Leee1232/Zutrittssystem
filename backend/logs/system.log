@@ -1,10 +1,67 @@
-2025-01-14 16:07:04,662 - DEBUG - Logger initialized successfully.
-2025-01-14 16:11:37,728 - DEBUG - Logger initialized successfully.
-2025-01-14 16:11:47,815 - DEBUG - Logger initialized successfully.
-2025-01-14 16:11:48,552 - DEBUG - Logger initialized successfully.
-2025-01-14 16:14:34,659 - DEBUG - Logger initialized successfully.
-2025-01-14 16:15:05,284 - DEBUG - Logger initialized successfully.
-2025-01-14 16:16:44,683 - DEBUG - Logger initialized successfully.
-2025-01-14 16:17:56,245 - DEBUG - Logger initialized successfully.
-2025-01-14 16:18:30,991 - DEBUG - Logger initialized successfully.
-2025-01-14 16:27:34,898 - DEBUG - Logger initialized successfully.
+2025-01-14 15:19:30,036 - DEBUG - Logger initialized successfully.
+2025-01-14 15:20:01,744 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM2ODY2MjAxfQ.Iovv215N1i91U0FCn92_ChKtO6QVZcm5T6uAfaXU91Q
+2025-01-14 15:20:01,745 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-14 15:20:15,012 - WARNING - Token fehlt oder ung�ltig
+2025-01-14 15:29:38,727 - DEBUG - Logger initialized successfully.
+2025-01-14 15:33:20,964 - DEBUG - Logger initialized successfully.
+2025-01-14 15:35:09,878 - DEBUG - Logger initialized successfully.
+2025-01-14 15:35:45,246 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM2ODY3MTQ1fQ.HqhhZg1Vsdw6oT8gCkQTHr3u9yWUlGgBQgUDJvHvtt4
+2025-01-14 15:35:45,247 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-14 15:35:45,669 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1736867145}
+2025-01-14 15:35:45,670 - INFO - Token von leon ist g�ltig.
+2025-01-14 15:35:46,899 - INFO - Logout erfolgreich.
+2025-01-14 15:48:57,565 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:51:22,472 - DEBUG - Logger initialized successfully.
+2025-01-14 15:51:40,882 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:51:55,421 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:53:56,008 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:55:51,877 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:57:49,444 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:57:56,256 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:58:19,001 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:58:20,389 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:58:29,081 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 15:59:07,734 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:00:05,294 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:02:29,375 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:02:35,777 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:02:37,215 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:02:37,730 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:02:37,918 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:03:02,053 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:03:14,460 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:03:15,836 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:03:16,304 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:03:16,480 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:03:16,643 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:03:16,870 - WARNING - Login fehlgeschlagen f�r Benutzer leon 
+2025-01-14 16:04:33,443 - DEBUG - Logger initialized successfully.
+2025-01-14 16:04:50,293 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM2ODY4ODkwfQ.Gj903_XlKZt954DRPxUw8TlYIw1nQjRJDyOCN5vNKNQ
+2025-01-14 16:04:50,294 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-14 16:04:50,589 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1736868890}
+2025-01-14 16:04:50,591 - INFO - Token von leon ist g�ltig.
+2025-01-14 16:04:51,894 - INFO - Logout erfolgreich.
+2025-01-14 16:05:13,112 - DEBUG - Logger initialized successfully.
+2025-01-14 16:08:14,398 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:09:47,240 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM2ODY5MTg3fQ.eNXAe8Sago50kiqRrhxgS1LaODgtPVxHLA9sCqO9SF8
+2025-01-14 16:09:47,241 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-14 16:09:47,534 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1736869187}
+2025-01-14 16:09:47,535 - INFO - Token von leon ist g�ltig.
+2025-01-14 16:09:49,001 - INFO - Logout erfolgreich.
+2025-01-14 16:11:16,292 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:13:37,986 - INFO - Sch�ler leon leon erfolgreich hinzugef�gt.
+2025-01-14 16:13:52,968 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:14:44,012 - INFO - RFID-Tag 2 erstellt.
+2025-01-14 16:14:44,022 - INFO - Sch�ler leon1 leon1 erfolgreich hinzugef�gt.
+2025-01-14 16:14:54,392 - INFO - RFID-Tag 3 erstellt.
+2025-01-14 16:14:54,402 - INFO - Sch�ler leon2 leon2 erfolgreich hinzugef�gt.
+2025-01-14 16:14:57,077 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:17:49,205 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:18:24,755 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:18:51,243 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:19:26,844 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:20:56,042 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:22:27,945 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:23:47,145 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:25:35,995 - INFO - Alle Sch�ler abgerufen.
+2025-01-14 16:27:46,342 - INFO - Alle Sch�ler abgerufen.

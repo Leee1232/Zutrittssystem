@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klassen Auswahl</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #ffeb3b;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 70px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group div {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%; /* Ensure full width */
+        }
+
+        .students-list {
+            margin-top: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .students-list h3 {
+            margin-bottom: 10px;
+        }
+
+        .students-list .student {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .students-list .student input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .buttons .cancel {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .buttons .next {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BENUTZERNAME</h1>
+    </div>
+
+    <div class="container">
+        <h2>Schüler Auswahl</h2>
+        
+        <div class="form-group">
+            <div>
+                <label for="klasse">Klasse</label>
+                <select id="klasse">
+                    <option value="">Bitte wählen...</option>
+                </select>
+            </div>
+            <div>
+                <label for="vorname">Schülername</label>
+                <input type="text" id="vorname" placeholder="Vorname">
+                <input type="text" id="nachname" placeholder="Nachname">
+            </div>
+        </div>
+
+        <button onclick="filterStudents()">Suchen</button>
+
+        <div class="students-list" id="students-list">
+            <h3>Schüler</h3>
+        </div>
+
+        <div class="buttons">
+            <button class="cancel" onclick="window.location.href='/'">ABBRECHEN</button>
+            <button class="next" onclick="selectStudents()">WEITER</button>
+        </div>
+    </div>
+
+    <script>
+        let studentsDatabase = [];
+        let raeume = [];
+        let selectedStudents = [];
+
+        async function fetchRaeume() {
+            try {
+                const response = await fetch('http://localhost:8000/raeume');
+                if (!response.ok) {
+                    throw new Error('Fehler beim Abrufen der Räume');
+                }
+                raeume = await response.json();
+                const klasseSelect = document.getElementById('klasse');
+                klasseSelect.innerHTML = '<option value="">Bitte wählen...</option>'; 
+                raeume.forEach(raum => {
+                    const option = document.createElement('option');
+                    option.value = raum.raum_name;
+                    option.textContent = raum.raum_name;
+                    klasseSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Fehler beim Abrufen der Raumdaten:', error);
+                alert('Fehler beim Laden der Räume. Bitte versuchen Sie es später erneut.');
+            }
+        }
+
+        async function fetchSchueler() {
+            try {
+                const response = await fetch('http://localhost:8000/schueler');
+                if (!response.ok) {
+                    throw new Error('Fehler beim Abrufen der Schüler');
+                }
+                studentsDatabase = await response.json();
+            } catch (error) {
+                console.error('Fehler beim Abrufen der Schülerdaten:', error);
+                alert('Fehler beim Laden der Schülerdaten. Bitte versuchen Sie es später erneut.');
+            }
+        }
+
+        function filterStudents() {
+            const klasse = document.getElementById('klasse').value;
+            const vorname = document.getElementById('vorname').value.toLowerCase().trim();
+            const nachname = document.getElementById('nachname').value.toLowerCase().trim();
+            const studentsList = document.getElementById('students-list');
+
+            // Clear previous results
+            studentsList.innerHTML = '<h3>Schüler</h3>';
+
+            if (klasse === '') {
+                alert('Bitte wählen Sie eine Klasse aus.');
+                return;
+            }
+
+            const filteredStudents = studentsDatabase.filter(student => {
+                const matchesKlasse = student.klasse === klasse;
+                const matchesVorname = vorname === '' || student.vorname.toLowerCase() === vorname;
+                const matchesNachname = nachname === '' || student.nachname.toLowerCase() === nachname;
+                
+                return matchesKlasse && 
+                       (vorname === '' || matchesVorname) && 
+                       (nachname === '' || matchesNachname);
+            });
+
+            if (filteredStudents.length === 0) {
+                studentsList.innerHTML += '<p>Keine Schüler gefunden.</p>';
+                return;
+            }
+
+            filteredStudents.forEach(student => {
+                const studentDiv = document.createElement('div');
+                studentDiv.classList.add('student');
+                studentDiv.innerHTML = `
+                    <input type="checkbox" 
+                           id="student-${student.vorname}-${student.nachname}" 
+                           value="${student.id}" 
+                           onchange="updateSelectedStudents(this)">
+                    <label for="student-${student.vorname}-${student.nachname}">
+                        ${student.vorname} ${student.nachname} (${student.klasse})
+                    </label>
+                `;
+                studentsList.appendChild(studentDiv);
+            });
+        }
+
+        function updateSelectedStudents(checkbox) {
+            const studentId = checkbox.value;
+            if (checkbox.checked) {
+                selectedStudents.push(studentId);
+            } else {
+                selectedStudents = selectedStudents.filter(id => id !== studentId);
+            }
+        }
+
+        function selectStudents() {
+            if (selectedStudents.length === 0) {
+                alert('Bitte wählen Sie mindestens einen Schüler aus.');
+                return;
+            }
+            
+            // Redirect to zweiteSeite.html with selected students
+            window.location.href = `zweiteSeite.html?schueler=${selectedStudents.join(',')}`;
+        }
+
+        async function onload() {
+            await fetchRaeume();
+            await fetchSchueler();
+        }
+
+        // Fetch classes and students data on page load
+        document.addEventListener('DOMContentLoaded', onload);
+    </script>
+</body>
+</html>

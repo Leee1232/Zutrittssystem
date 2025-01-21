@@ -378,5 +378,41 @@ def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str, db: Session
     logger.info("Zugang erlaubt.")
     return {"message": "Zugang erlaubt"}
 
+@app.get("/raeume", response_model=List[RaumRequest])
+def get_raeume(db: Session = Depends(get_db)):
+    """
+    Ruft alle Räume aus der Datenbank ab.
+    
+    :param db: Datenbankverbindung
+    :return: Liste aller Räume
+    """
+    try:
+        raeume = db.query(Raum).all()
+        return [{"raum_name": raum.raum_name} for raum in raeume]
+    except Exception as e:
+        logger.error(f"Fehler beim Abrufen der Räume: {e}")
+        raise HTTPException(status_code=500, detail="Fehler beim Abrufen der Räume")
+
+@app.get("/schueler", response_model=List[SchuelerResponse])
+def get_alle_schueler(db: Session = Depends(get_db)):
+    """
+    Ruft alle Schüler aus der Datenbank ab.
+    
+    :param db: Datenbankverbindung
+    :return: Liste aller Schüler
+    """
+    try:
+        schueler = db.query(Schueler).all()
+        return [
+            {
+                "vorname": s.vorname,
+                "nachname": s.nachname,
+                "klasse": s.klasse
+            } for s in schueler
+        ]
+    except Exception as e:
+        logger.error(f"Fehler beim Abrufen der Schüler: {e}")
+        raise HTTPException(status_code=500, detail="Fehler beim Abrufen der Schüler")
+
 # Wenn du die Tabellen noch nicht erstellt hast, kannst du dies hier tun:
 Base.metadata.create_all(bind=engine)
