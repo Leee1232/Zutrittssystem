@@ -127,3 +127,8 @@
 2025-01-27 14:57:41,003 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
 2025-01-27 14:58:06,946 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDg2fQ.oXOcl9TyCfzGDGhWnqq_V6DIChxkoF1dCPW7xe9IhQk
 2025-01-27 14:58:06,947 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 15:00:19,276 - DEBUG - Logger initialized successfully.
+2025-01-27 15:00:36,934 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MjM2fQ.8HKcLOTNsJ4dW3yDJqxG1fbt1hJewNPjdISbI9s96NY
+2025-01-27 15:00:36,935 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 15:00:36,972 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988236}
+2025-01-27 15:00:36,974 - INFO - Token von leon ist gültig.
