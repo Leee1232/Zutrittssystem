@@ -97,12 +97,37 @@
 
         .students-list .student {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+
+        .students-list .student label {
+            flex-grow: 1;
+            margin-right: 10px;
         }
 
         .students-list .student input[type="checkbox"] {
-            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        .select-all-box {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-all-box label {
+            flex-grow: 1;
+            margin-left: 10px;
         }
 
         .buttons {
@@ -173,7 +198,7 @@
         </div>
 
         <div class="buttons">
-            <button class="cancel" onclick="window.location.href='/'">ABBRECHEN</button>
+            <button class="cancel" onclick="cancelNavigation()">ABBRECHEN</button>
             <button class="next" onclick="selectStudents()">WEITER</button>
         </div>
     </div>
@@ -185,22 +210,22 @@
 
         async function fetchRaeume() {
             try {
-                const response = await fetch('http://localhost:8000/raeume');
+                const response = await fetch('http://localhost:8000/klassen');
                 if (!response.ok) {
-                    throw new Error('Fehler beim Abrufen der Räume');
+                    throw new Error('Fehler beim Abrufen der Klassen');
                 }
                 raeume = await response.json();
                 const klasseSelect = document.getElementById('klasse');
                 klasseSelect.innerHTML = '<option value="">Bitte wählen...</option>';
-                raeume.forEach(raum => {
+                raeume.forEach(klasse => {
                     const option = document.createElement('option');
-                    option.value = raum.raum_name;
-                    option.textContent = raum.raum_name;
+                    option.value = klasse.klasse_name;
+                    option.textContent = klasse.klasse_name;
                     klasseSelect.appendChild(option);
                 });
             } catch (error) {
-                console.error('Fehler beim Abrufen der Raumdaten:', error);
-                alert('Fehler beim Laden der Räume. Bitte versuchen Sie es später erneut.');
+                console.error('Fehler beim Abrufen der Klassendaten:', error);
+                alert('Fehler beim Laden der Klassen. Bitte versuchen Sie es später erneut.');
             }
         }
 
@@ -218,48 +243,71 @@
         }
 
         function filterStudents() {
-            const klasse = document.getElementById('klasse').value;
-            const vorname = document.getElementById('vorname').value.toLowerCase().trim();
-            const nachname = document.getElementById('nachname').value.toLowerCase().trim();
+            const klasseSelect = document.getElementById('klasse');
+            const vorname = document.getElementById('vorname').value.trim().toLowerCase();
+            const nachname = document.getElementById('nachname').value.trim().toLowerCase();
             const studentsList = document.getElementById('students-list');
 
-            // Clear previous results
+            // Clear previous list
             studentsList.innerHTML = '<h3>Schüler</h3>';
 
-            if (klasse === '') {
-                alert('Bitte wählen Sie eine Klasse aus.');
-                return;
-            }
-
+            // Filter students based on class, first name, and last name
             const filteredStudents = studentsDatabase.filter(student => {
-                const matchesKlasse = student.klasse === klasse;
+                // Class is optional now
+                const matchesClass = !klasseSelect.value || student.klasse === klasseSelect.value;
                 const matchesVorname = vorname === '' || student.vorname.toLowerCase() === vorname;
                 const matchesNachname = nachname === '' || student.nachname.toLowerCase() === nachname;
 
-                return matchesKlasse &&
-                    (vorname === '' || matchesVorname) &&
-                    (nachname === '' || matchesNachname);
+                // Return students matching all provided criteria
+                return matchesClass && matchesVorname && matchesNachname;
             });
 
+            // Create a "Select All" box
+            const selectAllBox = document.createElement('div');
+            selectAllBox.className = 'select-all-box';
+            const selectAllCheckbox = document.createElement('input');
+            selectAllCheckbox.type = 'checkbox';
+            selectAllCheckbox.id = 'select-all';
+            selectAllCheckbox.onchange = function () {
+                const checkboxes = studentsList.querySelectorAll('input[type="checkbox"]:not(#select-all)');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                    updateSelectedStudents(checkbox);
+                });
+            };
+            const selectAllLabel = document.createElement('label');
+            selectAllLabel.htmlFor = 'select-all';
+            selectAllLabel.textContent = 'Alle Schüler auswählen';
+            selectAllBox.appendChild(selectAllCheckbox);
+            selectAllBox.appendChild(selectAllLabel);
+            studentsList.appendChild(selectAllBox);
+
+            // Display filtered students
             if (filteredStudents.length === 0) {
-                studentsList.innerHTML += '<p>Keine Schüler gefunden.</p>';
-                return;
-            }
+                const noStudentsMsg = document.createElement('p');
+                noStudentsMsg.textContent = 'Keine Schüler gefunden.';
+                studentsList.appendChild(noStudentsMsg);
+            } else {
+                filteredStudents.forEach(student => {
+                    const studentDiv = document.createElement('div');
+                    studentDiv.className = 'student';
 
-            filteredStudents.forEach(student => {
-                const studentDiv = document.createElement('div');
-                studentDiv.classList.add('student');
-                studentDiv.innerHTML = `
-                    <input type="checkbox" 
-                           id="student-${student.vorname}-${student.nachname}" 
-                           value="${student.id}" 
-                           onchange="updateSelectedStudents(this)">
-                    <label for="student-${student.vorname}-${student.nachname}">
-                        ${student.vorname} ${student.nachname} (${student.klasse})
-                    </label>
-                `;
-                studentsList.appendChild(studentDiv);
-            });
+                    const label = document.createElement('label');
+                    label.textContent = `${student.vorname} ${student.nachname} (${student.klasse})`;
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `student-${student.schueler_id}`;
+                    checkbox.value = student.schueler_id;
+                    checkbox.onchange = function () {
+                        updateSelectedStudents(this);
+                    };
+
+                    studentDiv.appendChild(label);
+                    studentDiv.appendChild(checkbox);
+                    studentsList.appendChild(studentDiv);
+                });
+            }
         }
 
         function updateSelectedStudents(checkbox) {
@@ -271,14 +319,38 @@
             }
         }
 
-        function selectStudents() {
-            if (selectedStudents.length === 0) {
-                alert('Bitte wählen Sie mindestens einen Schüler aus.');
-                return;
+        async function checkTokenValidity() {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = '/index.html';
+                return false;
             }
 
-            // Redirect to zweiteSeite.html with selected students
-            window.location.href = `zweiteSeite.html?schueler=${selectedStudents.join(',')}`;
+            try {
+                const response = await fetch('http://127.0.0.1:8000/check_token', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    window.location.href = '/index.html';
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error('Fehler bei der Token-Überprüfung:', error);
+                window.location.href = '/index.html';
+                return false;
+            }
+        }
+
+        async function validateTokenForPage(targetPage) {
+            const isValid = await checkTokenValidity();
+            if (isValid) {
+                window.location.href = targetPage;
+            }
         }
 
         async function onload() {
@@ -286,8 +358,31 @@
             await fetchSchueler();
         }
 
-        // Fetch classes and students data on page load
-        document.addEventListener('DOMContentLoaded', onload);
+        function selectStudents() {
+            checkTokenValidity().then(isValid => {
+                if (isValid) {
+                    if (selectedStudents.length === 0) {
+                        alert('Bitte wählen Sie mindestens einen Schüler aus.');
+                        return;
+                    }
+
+                    const studentIdsToStore = selectedStudents.map(id => String(id));
+
+                    localStorage.setItem('selectedStudents', JSON.stringify(studentIdsToStore));
+
+                    validateTokenForPage('/zweiteSeite.html');
+                }
+            });
+        }
+
+        function cancelNavigation() {
+            validateTokenForPage('/dashboard.html');
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkTokenValidity();
+            onload();
+        });
     </script>
 </body>
 

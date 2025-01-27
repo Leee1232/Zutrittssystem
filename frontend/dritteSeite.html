@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Überprüfung der Auswahl</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;  
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #ffeb3b;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 70px;
+        }
+
+        .details-group {
+            margin-bottom: 20px;
+        }
+
+        .details-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .details-group .value {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .confirm-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BENUTZERNAME</h1>
+    </div>
+
+    <div class="container">
+        <h2>Überprüfung der Auswahl</h2>
+        
+        <div class="details-group">
+            <label>Ausgewählte Schüler:</label>
+            <div id="selectedStudentsDisplay" class="value"></div>
+        </div>
+
+        <div class="details-group">
+            <label>Raum:</label>
+            <div id="raumDisplay" class="value"></div>
+        </div>
+
+        <div class="details-group">
+            <label>Datum:</label>
+            <div id="datumDisplay" class="value"></div>
+        </div>
+
+        <div class="details-group">
+            <label>Zeit von:</label>
+            <div id="zeitVonDisplay" class="value"></div>
+        </div>
+
+        <div class="details-group">
+            <label>Zeit bis:</label>
+            <div id="zeitBisDisplay" class="value"></div>
+        </div>
+
+        <div class="buttons">
+            <button class="back-button" onclick="window.location.href='/zweiteSeite.html'">ZURÜCK</button>
+            <button class="confirm-button" onclick="confirmSelection()">BESTÄTIGEN</button>
+        </div>
+    </div>
+
+    <script>
+        let studentsDatabase = []; // Global variable to store all students
+
+        async function fetchStudents() {
+            try {
+                const response = await fetch('http://localhost:8000/schueler');
+                if (!response.ok) {
+                    throw new Error('Fehler beim Abrufen der Schülerdaten');
+                }
+                studentsDatabase = await response.json();
+                console.log('Fetched students:', studentsDatabase);
+            } catch (error) {
+                console.error('Fehler:', error);
+                alert('Fehler beim Laden der Schülerdaten. Bitte versuchen Sie es später erneut.');
+            }
+        }
+
+        function getStudentNameById(schuelerID) {
+            const student = studentsDatabase.find(s => s.schueler_id === schuelerID);
+            return student 
+                ? `${student.vorname} ${student.nachname}` 
+                : `Schüler ${schuelerID}`;
+        }
+
+        function displayStoredData() {
+            // First, ensure students are fetched
+            if (studentsDatabase.length === 0) {
+                fetchStudents().then(() => {
+                    displaySelectedStudents();
+                    displayZeitInfo();
+                });
+            } else {
+                displaySelectedStudents();
+                displayZeitInfo();
+            }
+        }
+
+        function displaySelectedStudents() {
+            const storedStudents = localStorage.getItem('selectedStudents');
+            console.log('Stored Students:', storedStudents);
+
+            if (storedStudents) {
+                const studentIds = JSON.parse(storedStudents);
+                console.log('Student IDs:', studentIds);
+
+                // Warte auf das Laden der Studenten-Datenbank
+                if (studentsDatabase.length === 0) {
+                    fetchStudents().then(() => {
+                        displayStudentNames(studentIds);
+                    });
+                } else {
+                    displayStudentNames(studentIds);
+                }
+            }
+        }
+
+        function displayStudentNames(studentIds) {
+            const studentNames = studentIds.map(id => {
+                const student = studentsDatabase.find(s => String(s.schueler_id) === String(id));
+                return student 
+                    ? `${student.vorname} ${student.nachname}` 
+                    : `Unbekannter Schüler (ID: ${id})`;
+            });
+
+            const displayText = studentNames.length > 0 
+                ? studentNames.join(', ') 
+                : 'Keine Schüler ausgewählt';
+
+            document.getElementById('selectedStudentsDisplay').textContent = displayText;
+        }
+
+        function displayZeitInfo() {
+            const storedZeitInfo = localStorage.getItem('zeitInfo');
+            if (storedZeitInfo) {
+                const zeitInfo = JSON.parse(storedZeitInfo);
+                document.getElementById('raumDisplay').textContent = zeitInfo.raum || 'Kein Raum ausgewählt';
+                document.getElementById('datumDisplay').textContent = zeitInfo.datum || 'Kein Datum ausgewählt';
+                document.getElementById('zeitVonDisplay').textContent = zeitInfo.zeitVon || 'Keine Startzeit ausgewählt';
+                document.getElementById('zeitBisDisplay').textContent = zeitInfo.zeitBis || 'Keine Endzeit ausgewählt';
+            }
+        }
+
+        async function confirmSelection() {
+            // Get selected student IDs and other details
+            const selectedStudentIds = localStorage.getItem('selectedStudents') ? JSON.parse(localStorage.getItem('selectedStudents')) : [];
+            const selectedRoomId = localStorage.getItem('selectedRoomId');
+            const selectedDate = localStorage.getItem('selectedDate');
+            const selectedTime = localStorage.getItem('selectedTime');
+
+            if (!selectedStudentIds.length || !selectedRoomId || !selectedDate || !selectedTime) {
+                alert('Bitte wählen Sie alle erforderlichen Informationen aus.');
+                return;
+            }
+
+            try {
+                // Send access update for each selected student
+                for (const studentId of selectedStudentIds) {
+                    const response = await fetch(`/zugang/${studentId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            raum_id: parseInt(selectedRoomId),
+                            datum: selectedDate,
+                            zeit: selectedTime
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Fehler beim Hinzufügen des Zugangs für Schüler ${studentId}`);
+                    }
+                }
+
+                alert('Zugang erfolgreich hinzugefügt!');
+                // Optional: Redirect or clear selections
+                window.location.href = '/dashboard.html';
+            } catch (error) {
+                console.error('Fehler:', error);
+                alert('Es gab einen Fehler beim Hinzufügen des Zugangs.');
+            }
+        }
+
+        // Fetch students when the page loads
+        document.addEventListener('DOMContentLoaded', displayStoredData);
+    </script>
+</body>
+</html>

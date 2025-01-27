@@ -65,70 +65,210 @@
 2025-01-14 16:23:47,145 - INFO - Alle Schï¿½ler abgerufen.
 2025-01-14 16:25:35,995 - INFO - Alle Schï¿½ler abgerufen.
 2025-01-14 16:27:46,342 - INFO - Alle Schï¿½ler abgerufen.
-2025-01-27 14:33:57,752 - DEBUG - Logger initialized successfully.
-2025-01-27 14:34:52,054 - WARNING - Login fehlgeschlagen für Benutzer Leon
-2025-01-27 14:35:07,182 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:25,596 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:27,137 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:27,683 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:30,580 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:31,057 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:31,380 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:31,604 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:31,786 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:32,082 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:32,682 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:32,825 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:33,049 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:33,423 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:33,684 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:33,885 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:33,999 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:35:45,276 - WARNING - Login fehlgeschlagen für Benutzer Leon
-2025-01-27 14:35:46,256 - WARNING - Login fehlgeschlagen für Benutzer Leon
-2025-01-27 14:35:46,655 - WARNING - Login fehlgeschlagen für Benutzer Leon
-2025-01-27 14:35:46,761 - WARNING - Login fehlgeschlagen für Benutzer Leon
-2025-01-27 14:40:48,279 - WARNING - Login fehlgeschlagen für Benutzer Leon
-2025-01-27 14:40:50,424 - WARNING - Login fehlgeschlagen für Benutzer Leon
-2025-01-27 14:41:03,081 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:41:03,671 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:41:03,866 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:41:04,023 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:41:04,171 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:43:30,909 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:43:33,370 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:43:33,761 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:43:33,930 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:43:34,171 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:43:34,349 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:43:40,007 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:44:05,449 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:44:06,581 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:44:06,811 - WARNING - Login fehlgeschlagen für Benutzer leon
-2025-01-27 14:44:45,760 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:44:47,020 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:44:52,063 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:44:52,653 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:44:52,841 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:44:53,025 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:47:56,998 - DEBUG - Logger initialized successfully.
-2025-01-27 14:51:17,606 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:51:19,052 - WARNING - Login fehlgeschlagen für Benutzer test1234
-2025-01-27 14:53:00,934 - WARNING - Benutzername leon bereits vergeben.
-2025-01-27 14:53:04,940 - WARNING - Benutzername leon bereits vergeben.
-2025-01-27 14:53:05,861 - WARNING - Benutzername leon bereits vergeben.
-2025-01-27 14:53:06,685 - WARNING - Benutzername leon bereits vergeben.
-2025-01-27 14:56:28,930 - WARNING - Benutzername leon bereits vergeben.
-2025-01-27 14:56:29,870 - WARNING - Benutzername leon bereits vergeben.
-2025-01-27 14:57:24,477 - INFO - Neuer Benutzer leon erfolgreich registriert.
-2025-01-27 14:57:34,541 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDU0fQ.XXrjVE1d-rFf44C2f-Ju8tC5Bm19Wf6iwvzimeAjn3E
-2025-01-27 14:57:34,542 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
-2025-01-27 14:57:41,003 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDYxfQ.rKnrmuhiqxJvtCHkzYd8L0H0dQirVlSlEE_-Bmg6O1Q
-2025-01-27 14:57:41,003 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
-2025-01-27 14:58:06,946 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDg2fQ.oXOcl9TyCfzGDGhWnqq_V6DIChxkoF1dCPW7xe9IhQk
-2025-01-27 14:58:06,947 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
-2025-01-27 15:00:19,276 - DEBUG - Logger initialized successfully.
-2025-01-27 15:00:36,934 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MjM2fQ.8HKcLOTNsJ4dW3yDJqxG1fbt1hJewNPjdISbI9s96NY
-2025-01-27 15:00:36,935 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
-2025-01-27 15:00:36,972 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988236}
-2025-01-27 15:00:36,974 - INFO - Token von leon ist gültig.
+2025-01-20 08:00:25,447 - DEBUG - Logger initialized successfully.
+2025-01-20 08:01:30,420 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzU4MjkwfQ.rt99M71K8dlLZCT9xbvwuQluODtwai4AgMjwqlRxgao
+2025-01-20 08:01:30,422 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 08:01:31,048 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737358290}
+2025-01-20 08:01:31,051 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 08:01:38,701 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:02:27,936 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:10:47,305 - DEBUG - Logger initialized successfully.
+2025-01-20 08:14:35,109 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:15:06,018 - WARNING - Schï¿½ler mit ID 1 nicht gefunden.
+2025-01-20 08:15:26,235 - WARNING - Schï¿½ler mit ID 1 nicht gefunden.
+2025-01-20 08:15:34,938 - WARNING - Schï¿½ler mit ID 1 nicht gefunden.
+2025-01-20 08:16:24,301 - INFO - Klasse 5AHWII erfolgreich hinzugefï¿½gt.
+2025-01-20 08:16:51,256 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:17:38,402 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:18:34,965 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:19:13,477 - INFO - Raum 308 erfolgreich hinzugefï¿½gt.
+2025-01-20 08:19:34,110 - DEBUG - Logger initialized successfully.
+2025-01-20 08:22:01,253 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737358290}
+2025-01-20 08:22:01,255 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 08:22:04,165 - INFO - Logout erfolgreich.
+2025-01-20 08:23:31,176 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:24:26,392 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:32:07,520 - DEBUG - Logger initialized successfully.
+2025-01-20 08:32:33,050 - WARNING - Login fehlgeschlagen fï¿½r Benutzer leon
+2025-01-20 08:32:36,582 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYwMTU2fQ.48qZwPpPIuIyFoZRLz9CuuQcguQn3S-F27ioDB1_av8
+2025-01-20 08:32:36,584 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 08:32:36,908 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737360156}
+2025-01-20 08:32:36,909 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 08:32:39,767 - INFO - Logout erfolgreich.
+2025-01-20 08:32:43,788 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:40:31,997 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:41:10,899 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:42:02,674 - WARNING - Schï¿½ler mit ID 1 nicht gefunden.
+2025-01-20 08:44:00,515 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:47:25,797 - DEBUG - Logger initialized successfully.
+2025-01-20 08:47:29,458 - DEBUG - Logger initialized successfully.
+2025-01-20 08:47:36,096 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:48:17,726 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:49:48,076 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:50:56,938 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:52:09,399 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 08:52:26,086 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:02:47,788 - DEBUG - Logger initialized successfully.
+2025-01-20 09:03:31,792 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:03:44,593 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:05:26,463 - DEBUG - Logger initialized successfully.
+2025-01-20 09:05:31,469 - DEBUG - Logger initialized successfully.
+2025-01-20 09:05:50,897 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:06:04,462 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:06:10,263 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:07:07,570 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:07:54,747 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-20 09:08:06,879 - DEBUG - Logger initialized successfully.
+2025-01-20 09:17:41,472 - DEBUG - Logger initialized successfully.
+2025-01-20 09:18:02,327 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYyODgyfQ.Dv_F8vdYMM_LHb_u8tIzaLWgmubElrjOn181PrJHGeo
+2025-01-20 09:18:02,330 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 09:18:02,977 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737362882}
+2025-01-20 09:18:02,979 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 09:18:42,137 - DEBUG - Logger initialized successfully.
+2025-01-20 09:18:44,137 - DEBUG - Logger initialized successfully.
+2025-01-20 09:18:58,487 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYyOTM4fQ.4BiGN8qNNZopveaZJDBSSgW9zFJ7K37ieuZH-CPF-Kc
+2025-01-20 09:18:58,490 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 09:18:59,178 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737362938}
+2025-01-20 09:18:59,180 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 09:19:27,507 - INFO - Logout erfolgreich.
+2025-01-20 09:19:34,817 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYyOTc0fQ.kNYHFgokOK2d049feAq9rQPzJp_OoL95MvMb7K4J_vE
+2025-01-20 09:19:34,821 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 09:19:35,263 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737362974}
+2025-01-20 09:19:35,265 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 09:20:39,778 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737362974}
+2025-01-20 09:20:39,781 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 09:20:55,224 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYzMDU1fQ.Q-JnyPWbImAqzWVW-dhXtFSqnozOr_0JcNWnbrUjUkw
+2025-01-20 09:20:55,227 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 09:20:55,923 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737363055}
+2025-01-20 09:20:55,926 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 09:21:57,105 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYzMTE3fQ.jtnAY0E7sjaMAGugGPGz7SdAGUFxtemC8uY7ByoS3F4
+2025-01-20 09:21:57,106 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 09:21:57,707 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737363117}
+2025-01-20 09:21:57,709 - INFO - Token von leon ist gï¿½ltig.
+2025-01-20 09:22:14,435 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3MzYzMTM0fQ.DguuDuPij03RLeHfsvhZpg6prqtdUIBkZIdmIJsejkg
+2025-01-20 09:22:14,437 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-20 09:22:14,972 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737363134}
+2025-01-20 09:22:14,975 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:31:47,934 - DEBUG - Logger initialized successfully.
+2025-01-21 15:32:18,414 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:32:36,773 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:34:55,059 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:35:49,655 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:35:54,628 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:36:05,318 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:38:01,490 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:39:57,982 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:43:15,883 - DEBUG - Logger initialized successfully.
+2025-01-21 15:44:10,961 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:48:18,700 - WARNING - Token abgelaufen
+2025-01-21 15:51:46,228 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:54:05,676 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3NDczMDQ1fQ.2N9JiA0_N8mt2kRzqH3eq5IfprQCJzOU05M3Owv4J54
+2025-01-21 15:54:05,678 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-21 15:54:06,572 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:54:06,575 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:54:08,580 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:54:08,584 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:54:08,691 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:54:09,952 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:54:09,955 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:54:15,968 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:54:15,970 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:54:15,990 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:54:15,993 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:57:29,040 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:57:29,050 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:57:29,242 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:58:05,447 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:58:05,448 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:58:05,496 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:58:59,684 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473045}
+2025-01-21 15:58:59,686 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:58:59,862 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 15:59:10,345 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3NDczMzUwfQ.H1Q3D3Il8Df6Tw0Q1bHpfOANiur1bQUzyzIlJwVZtnQ
+2025-01-21 15:59:10,347 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-21 15:59:10,925 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737473350}
+2025-01-21 15:59:10,927 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 15:59:11,722 - INFO - Logout erfolgreich.
+2025-01-21 16:03:18,138 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:06:05,537 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:21:11,435 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3NDc0NjcxfQ.esloYYPmyBfASe0QtJLpKgVAS8llPdwVYGZ1P5PivvA
+2025-01-21 16:21:11,437 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-21 16:21:11,996 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474671}
+2025-01-21 16:21:11,998 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:21:13,431 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474671}
+2025-01-21 16:21:13,435 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:21:13,577 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:21:14,364 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474671}
+2025-01-21 16:21:14,367 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:21:47,183 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474671}
+2025-01-21 16:21:47,188 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:21:47,242 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:25:46,806 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474671}
+2025-01-21 16:25:46,809 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:25:46,921 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:25:59,865 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3NDc0OTU5fQ.vByEhnId-E6xhK4L34MnZU7IEVQiaz_laq6yMS217_k
+2025-01-21 16:25:59,867 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-21 16:26:00,338 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474959}
+2025-01-21 16:26:00,340 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:26:02,706 - INFO - Logout erfolgreich.
+2025-01-21 16:26:17,944 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3NDc0OTc3fQ.FhNGw04lErDwHCG2lrrpnWeF3OfNBvLjh6nmEYacXH0
+2025-01-21 16:26:17,946 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-21 16:26:18,471 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:26:18,474 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:26:25,625 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:26:25,628 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:26:25,696 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:26:31,707 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:26:31,710 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:26:32,164 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:26:32,166 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:26:33,445 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:26:33,447 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:26:33,506 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:26:38,168 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:26:38,170 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:26:38,193 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:26:38,196 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:27:01,531 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:27:12,437 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:27:12,442 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:27:12,539 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-21 16:27:12,927 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:27:12,930 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:27:13,533 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737474977}
+2025-01-21 16:27:13,536 - INFO - Token von leon ist gï¿½ltig.
+2025-01-21 16:27:16,376 - INFO - Logout erfolgreich.
+2025-01-27 14:42:38,072 - DEBUG - Logger initialized successfully.
+2025-01-27 14:49:19,254 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg3NTU5fQ.qPf42wbxqMZU_c-oeLF99xgRmqUHhMN8wQHa-LlWm1s
+2025-01-27 14:49:19,256 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 14:49:19,672 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737987559}
+2025-01-27 14:49:19,674 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:52:33,235 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737987559}
+2025-01-27 14:52:33,237 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:52:33,327 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-27 14:52:42,263 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737987559}
+2025-01-27 14:52:42,264 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:52:42,273 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737987559}
+2025-01-27 14:52:42,275 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:52:52,362 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-27 14:53:00,290 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737987559}
+2025-01-27 14:53:00,293 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:53:00,334 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-27 14:53:05,064 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737987559}
+2025-01-27 14:53:05,065 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:53:05,287 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737987559}
+2025-01-27 14:53:05,288 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:53:43,015 - INFO - Logout erfolgreich.
+2025-01-27 14:53:51,915 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-27 14:57:27,480 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDQ3fQ.6zb9BQdhdyphxEXOCgnpmBRADUX88OtkO_qp-ciEbPE
+2025-01-27 14:57:27,481 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 14:57:27,849 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988047}
+2025-01-27 14:57:27,851 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:57:29,564 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988047}
+2025-01-27 14:57:29,566 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:57:29,614 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-27 14:57:34,180 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988047}
+2025-01-27 14:57:34,181 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:57:34,194 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988047}
+2025-01-27 14:57:34,195 - INFO - Token von leon ist gï¿½ltig.
+2025-01-27 14:57:43,176 - INFO - Alle Schï¿½ler abgerufen.
