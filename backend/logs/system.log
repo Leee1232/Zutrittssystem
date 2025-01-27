@@ -65,3 +65,65 @@
 2025-01-14 16:23:47,145 - INFO - Alle Schï¿½ler abgerufen.
 2025-01-14 16:25:35,995 - INFO - Alle Schï¿½ler abgerufen.
 2025-01-14 16:27:46,342 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-27 14:33:57,752 - DEBUG - Logger initialized successfully.
+2025-01-27 14:34:52,054 - WARNING - Login fehlgeschlagen für Benutzer Leon
+2025-01-27 14:35:07,182 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:25,596 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:27,137 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:27,683 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:30,580 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:31,057 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:31,380 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:31,604 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:31,786 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:32,082 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:32,682 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:32,825 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:33,049 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:33,423 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:33,684 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:33,885 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:33,999 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:35:45,276 - WARNING - Login fehlgeschlagen für Benutzer Leon
+2025-01-27 14:35:46,256 - WARNING - Login fehlgeschlagen für Benutzer Leon
+2025-01-27 14:35:46,655 - WARNING - Login fehlgeschlagen für Benutzer Leon
+2025-01-27 14:35:46,761 - WARNING - Login fehlgeschlagen für Benutzer Leon
+2025-01-27 14:40:48,279 - WARNING - Login fehlgeschlagen für Benutzer Leon
+2025-01-27 14:40:50,424 - WARNING - Login fehlgeschlagen für Benutzer Leon
+2025-01-27 14:41:03,081 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:41:03,671 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:41:03,866 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:41:04,023 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:41:04,171 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:43:30,909 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:43:33,370 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:43:33,761 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:43:33,930 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:43:34,171 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:43:34,349 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:43:40,007 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:44:05,449 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:44:06,581 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:44:06,811 - WARNING - Login fehlgeschlagen für Benutzer leon
+2025-01-27 14:44:45,760 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:44:47,020 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:44:52,063 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:44:52,653 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:44:52,841 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:44:53,025 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:47:56,998 - DEBUG - Logger initialized successfully.
+2025-01-27 14:51:17,606 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:51:19,052 - WARNING - Login fehlgeschlagen für Benutzer test1234
+2025-01-27 14:53:00,934 - WARNING - Benutzername leon bereits vergeben.
+2025-01-27 14:53:04,940 - WARNING - Benutzername leon bereits vergeben.
+2025-01-27 14:53:05,861 - WARNING - Benutzername leon bereits vergeben.
+2025-01-27 14:53:06,685 - WARNING - Benutzername leon bereits vergeben.
+2025-01-27 14:56:28,930 - WARNING - Benutzername leon bereits vergeben.
+2025-01-27 14:56:29,870 - WARNING - Benutzername leon bereits vergeben.
+2025-01-27 14:57:24,477 - INFO - Neuer Benutzer leon erfolgreich registriert.
+2025-01-27 14:57:34,541 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDU0fQ.XXrjVE1d-rFf44C2f-Ju8tC5Bm19Wf6iwvzimeAjn3E
+2025-01-27 14:57:34,542 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 14:57:41,003 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDYxfQ.rKnrmuhiqxJvtCHkzYd8L0H0dQirVlSlEE_-Bmg6O1Q
+2025-01-27 14:57:41,003 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 14:58:06,946 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg4MDg2fQ.oXOcl9TyCfzGDGhWnqq_V6DIChxkoF1dCPW7xe9IhQk
+2025-01-27 14:58:06,947 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,7 +68,8 @@
             flex-direction: column;
         }
 
-        .form-group select, .form-group input {
+        .form-group select,
+        .form-group input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
@@ -76,7 +78,8 @@
         }
 
         .form-group input[type="text"] {
-            width: 100%; /* Ensure full width */
+            width: 100%;
+            /* Ensure full width */
         }
 
         .students-list {
@@ -140,6 +143,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>BENUTZERNAME</h1>
@@ -147,7 +151,7 @@
 
     <div class="container">
         <h2>Schüler Auswahl</h2>
-        
+
         <div class="form-group">
             <div>
                 <label for="klasse">Klasse</label>
@@ -187,7 +191,7 @@
                 }
                 raeume = await response.json();
                 const klasseSelect = document.getElementById('klasse');
-                klasseSelect.innerHTML = '<option value="">Bitte wählen...</option>'; 
+                klasseSelect.innerHTML = '<option value="">Bitte wählen...</option>';
                 raeume.forEach(raum => {
                     const option = document.createElement('option');
                     option.value = raum.raum_name;
@@ -231,10 +235,10 @@
                 const matchesKlasse = student.klasse === klasse;
                 const matchesVorname = vorname === '' || student.vorname.toLowerCase() === vorname;
                 const matchesNachname = nachname === '' || student.nachname.toLowerCase() === nachname;
-                
-                return matchesKlasse && 
-                       (vorname === '' || matchesVorname) && 
-                       (nachname === '' || matchesNachname);
+
+                return matchesKlasse &&
+                    (vorname === '' || matchesVorname) &&
+                    (nachname === '' || matchesNachname);
             });
 
             if (filteredStudents.length === 0) {
@@ -272,7 +276,7 @@
                 alert('Bitte wählen Sie mindestens einen Schüler aus.');
                 return;
             }
-            
+
             // Redirect to zweiteSeite.html with selected students
             window.location.href = `zweiteSeite.html?schueler=${selectedStudents.join(',')}`;
         }
@@ -286,4 +290,5 @@
         document.addEventListener('DOMContentLoaded', onload);
     </script>
 </body>
+
 </html>
