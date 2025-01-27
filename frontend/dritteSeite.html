@@ -210,7 +210,7 @@
 
         async function confirmSelection() {
             // Get selected student IDs and other details
-            const selectedStudentIds = localStorage.getItem('selectedStudents') ? JSON.parse(localStorage.getItem('selectedStudents')) : [];
+            const selectedStudentIds = localStorage.getItem('selectedStudentIds') ? JSON.parse(localStorage.getItem('selectedStudentIds')) : [];
             const selectedRoomId = localStorage.getItem('selectedRoomId');
             const selectedDate = localStorage.getItem('selectedDate');
             const selectedTime = localStorage.getItem('selectedTime');
@@ -223,7 +223,7 @@
             try {
                 // Send access update for each selected student
                 for (const studentId of selectedStudentIds) {
-                    const response = await fetch(`/zugang/${studentId}`, {
+                    const response = await fetch('/update_zugang', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -242,10 +242,86 @@
 
                 alert('Zugang erfolgreich hinzugefügt!');
                 // Optional: Redirect or clear selections
+            } catch (error) {
+                console.error('Fehler:', error);
+                alert('Es gab einen Fehler beim Hinzufügen des Zugangs.');
+            }
+        }
+
+        // Fetch students when the page loads
+        document.addEventListener('DOMContentLoaded', displayStoredData);
+    </script>
+</body>
+</html>
+</html>
+                alert('Zugang erfolgreich hinzugefügt!');
+                // Optional: Redirect or clear selections
                 window.location.href = '/dashboard.html';
             } catch (error) {
                 console.error('Fehler:', error);
                 alert('Es gab einen Fehler beim Hinzufügen des Zugangs.');
+            }
+        }
+
+        // Fetch students when the page loads
+        document.addEventListener('DOMContentLoaded', displayStoredData);
+    </script>
+</body>
+</html>
+
+                alert('Zugang erfolgreich hinzugefügt!');
+                // Optional: Redirect or clear selections
+                window.location.href = '/dashboard.html';
+            } catch (error) {
+                console.error('Fehler:', error);
+                alert('Es gab einen Fehler beim Hinzufügen des Zugangs.');
+            }
+        }
+
+        // Fetch students when the page loads
+        document.addEventListener('DOMContentLoaded', displayStoredData);
+    </script>
+</body>
+</html>
+                            datum: datumDisplay,
+                            zeit: `${zeitVonDisplay}-${zeitBisDisplay}`  // Zeit im Format "HH:MM-HH:MM"
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Fehler beim Hinzufügen des Zugangs für Schüler ${studentId}`);
+                    }
+                }
+
+                alert('Zugang erfolgreich hinzugefügt!');
+                // Optional: Redirect or clear selections
+                window.location.href = '/dashboard.html';
+            } catch (error) {
+                console.error('Fehler:', error);
+                alert('Es gab einen Fehler beim Hinzufügen des Zugangs.');
+            }
+        }
+
+        // Fetch students and rooms when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchStudents();
+            fetchRooms();
+            displayStoredData();
+        });
+    </script>
+</body>
+</html>
+
+                    const responseData = await response.json();
+                    console.log(`Erfolgreiche Antwort für Schüler ${studentId}:`, responseData);
+                }
+
+                alert('Zugang für alle Schüler erfolgreich hinzugefügt!');
+                window.location.href = '/dashboard.html';
+
+            } catch (error) {
+                console.error('Fehler beim Senden der Zugriffsanfragen:', error);
+                alert(`Fehler: ${error.message}`);
             }
         }
 
