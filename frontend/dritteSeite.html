@@ -224,7 +224,7 @@
 
         async function confirmSelection() {
             // Get selected student IDs and other details
-            const selectedStudentIds = localStorage.getItem('selectedStudentIds') ? JSON.parse(localStorage.getItem('selectedStudentIds')) : [];
+            const selectedStudentIds = localStorage.getItem('selectedStudents') ? JSON.parse(localStorage.getItem('selectedStudents')) : [];
             const selectedRoomId = localStorage.getItem('selectedRoomId');
             const selectedDate = localStorage.getItem('selectedDate');
             const selectedTime = localStorage.getItem('selectedTime');
@@ -239,7 +239,7 @@
             try {
                 // Send access update for each selected student
                 for (const studentId of selectedStudentIds) {
-                    const response = await fetch('/update_zugang', {
+                    const response = await fetch(`/zugang/${studentId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -258,6 +258,7 @@
 
                 alert('Zugang erfolgreich hinzugefügt!');
                 // Optional: Redirect or clear selections
+                window.location.href = '/dashboard.html';
             } catch (error) {
                 console.error('Fehler:', error);
                 alert('Es gab einen Fehler beim Hinzufügen des Zugangs.');
