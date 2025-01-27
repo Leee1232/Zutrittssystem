@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;  
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -87,6 +88,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>BENUTZERNAME</h1>
@@ -94,7 +96,7 @@
 
     <div class="container">
         <h2>Überprüfung der Auswahl</h2>
-        
+
         <div class="details-group">
             <label>Ausgewählte Schüler:</label>
             <div id="selectedStudentsDisplay" class="value"></div>
@@ -145,10 +147,11 @@
 
         function getStudentNameById(schuelerID) {
             const student = studentsDatabase.find(s => s.schueler_id === schuelerID);
-            return student 
-                ? `${student.vorname} ${student.nachname}` 
+            return student
+                ? `${student.vorname} ${student.nachname}`
                 : `Schüler ${schuelerID}`;
         }
+
 
         function displayStoredData() {
             // First, ensure students are fetched
@@ -160,6 +163,10 @@
             } else {
                 displaySelectedStudents();
                 displayZeitInfo();
+            }
+            if (!checkIfLoggedIn()) {
+                window.location.href = '/index.html';
+                return; // Stoppt den weiteren Ablauf, wenn nicht eingeloggt
             }
         }
 
@@ -185,13 +192,13 @@
         function displayStudentNames(studentIds) {
             const studentNames = studentIds.map(id => {
                 const student = studentsDatabase.find(s => String(s.schueler_id) === String(id));
-                return student 
-                    ? `${student.vorname} ${student.nachname}` 
+                return student
+                    ? `${student.vorname} ${student.nachname}`
                     : `Unbekannter Schüler (ID: ${id})`;
             });
 
-            const displayText = studentNames.length > 0 
-                ? studentNames.join(', ') 
+            const displayText = studentNames.length > 0
+                ? studentNames.join(', ')
                 : 'Keine Schüler ausgewählt';
 
             document.getElementById('selectedStudentsDisplay').textContent = displayText;
@@ -208,12 +215,21 @@
             }
         }
 
+        function checkIfLoggedIn() {
+            // Überprüfen, ob relevante Daten wie ausgewählte Schüler oder Raum vorhanden sind
+            const storedStudents = localStorage.getItem('selectedStudents');
+            const storedZeitInfo = localStorage.getItem('zeitInfo');
+            return storedStudents && storedZeitInfo; // Benutzer muss beides haben, um als "eingeloggt" zu gelten
+        }
+
         async function confirmSelection() {
             // Get selected student IDs and other details
             const selectedStudentIds = localStorage.getItem('selectedStudents') ? JSON.parse(localStorage.getItem('selectedStudents')) : [];
             const selectedRoomId = localStorage.getItem('selectedRoomId');
             const selectedDate = localStorage.getItem('selectedDate');
             const selectedTime = localStorage.getItem('selectedTime');
+
+
 
             if (!selectedStudentIds.length || !selectedRoomId || !selectedDate || !selectedTime) {
                 alert('Bitte wählen Sie alle erforderlichen Informationen aus.');
@@ -253,4 +269,5 @@
         document.addEventListener('DOMContentLoaded', displayStoredData);
     </script>
 </body>
+
 </html>

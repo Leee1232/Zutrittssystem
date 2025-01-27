@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raum und Zeit Auswahl</title>
+    <title>Dritte Seite</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,45 +45,18 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             margin-top: 70px;
-            max-height: calc(100vh - 100px);
-            overflow-y: auto;
         }
 
-        .form-group {
+        .info {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            gap: 30px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group div {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group select, .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-
-        .form-group input[type="text"], 
-        .form-group input[type="date"], 
-        .form-group input[type="time"] {
-            width: 100%; /* Ensure full width */
-        }
-
-        .form-group input[type="checkbox"] {
-            margin-right: 10px;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         button {
@@ -100,162 +74,51 @@
             background-color: #45a049;
         }
 
-        .buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .buttons .cancel {
+        .buttons .back {
             background-color: #f44336;
             color: white;
         }
-
-        .buttons .next {
-            background-color: #4caf50;
-            color: white;
-        }
-
-        h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
+
 <body>
     <div class="header">
-        <h1>BENUTZERNAME</h1>
+        <h1>Raum und Zeit Übersicht</h1>
     </div>
 
     <div class="container">
-        <h2>Raum und Zeit Auswahl</h2>
-        
-        <div class="form-group">
-            <div>
-                <label for="raum">Raum</label>
-                <select id="raum">
-                    <option value="">Bitte Raum wählen...</option>
-                </select>
-            </div>
-            <div>
-                <label for="datum">Datum</label>
-                <input type="date" id="datum">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div>
-                <label for="zeitVon">Zeit von</label>
-                <input type="time" id="zeitVon">
-            </div>
-            <div>
-                <label for="zeitBis">Zeit bis</label>
-                <input type="time" id="zeitBis">
-            </div>
+        <div class="info">
+            <p id="raumInfo"></p>
+            <p id="zeitInfo"></p>
         </div>
 
         <div class="buttons">
-            <button class="cancel" onclick="window.location.href='/ersteSeite.html'">ZURÜCK</button>
-            <button class="next" onclick="selectRaumUndZeit()">WEITER</button>
+            <button class="back" onclick="window.location.href='/zweiteSeite.html'">ZURÜCK</button>
+            <button onclick="finalize()">BESTÄTIGEN</button>
         </div>
     </div>
 
     <script>
-        let selectedStudents = [];
-        let selectedRaum = null;
+        function loadZeitInfo() {
+            const zeitInfo = JSON.parse(localStorage.getItem('zeitInfo'));
+            if (!zeitInfo) {
+                window.location.href = '/index.html';
+                return;
+            }
 
-        function fetchRaeume() {
-            fetch('http://localhost:8000/raeume')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Fehler beim Abrufen der Räume');
-                    }
-                    return response.json();
-                })
-                .then(raeume => {
-                    const raumSelect = document.getElementById('raum');
-                    raeume.forEach(raum => {
-                        const option = document.createElement('option');
-                        option.value = raum.raum_name;
-                        option.textContent = raum.raum_name;
-                        raumSelect.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Fehler:', error);
-                    alert('Fehler beim Laden der Räume. Bitte versuchen Sie es später erneut.');
-                });
+            // Zeige die gespeicherten Informationen
+            document.getElementById('raumInfo').textContent = `Raum: ${zeitInfo.raum}`;
+            document.getElementById('zeitInfo').textContent = `Datum: ${zeitInfo.datum}, Zeit: ${zeitInfo.zeitVon} - ${zeitInfo.zeitBis}`;
         }
 
-        function selectRaumUndZeit() {
-            const raum = document.getElementById('raum').value;
-            const datum = document.getElementById('datum').value;
-            const zeitVon = document.getElementById('zeitVon').value;
-            const zeitBis = document.getElementById('zeitBis').value;
-
-            // Validierung
-            if (!raum) {
-                alert('Bitte wählen Sie einen Raum.');
-                return;
-            }
-
-            if (!datum) {
-                alert('Bitte wählen Sie ein Datum.');
-                return;
-            }
-
-            if (!zeitVon || !zeitBis) {
-                alert('Bitte geben Sie eine Start- und Endzeit an.');
-                return;
-            }
-
-            // Zeitvalidierung mit detaillierter Fehlermeldung
-            const startTime = new Date(`2000-01-01T${zeitVon}`);
-            const endTime = new Date(`2000-01-01T${zeitBis}`);
-
-            // Vergleiche Stunden und Minuten separat
-            const startHours = startTime.getHours();
-            const startMinutes = startTime.getMinutes();
-            const endHours = endTime.getHours();
-            const endMinutes = endTime.getMinutes();
-
-            if (startHours > endHours || 
-                (startHours === endHours && startMinutes >= endMinutes)) {
-                alert('Die Startzeit muss vor der Endzeit liegen. Bitte korrigieren Sie die Zeiten.');
-                // Optional: Highlight the time inputs to draw attention
-                document.getElementById('zeitVon').style.borderColor = 'red';
-                document.getElementById('zeitBis').style.borderColor = 'red';
-                return;
-            }
-
-            // Reset border colors if validation passes
-            document.getElementById('zeitVon').style.borderColor = '';
-            document.getElementById('zeitBis').style.borderColor = '';
-
-            // Speichere Raum und Zeitinformationen
-            const zeitInfo = {
-                raum: raum,
-                datum: datum,
-                zeitVon: zeitVon,
-                zeitBis: zeitBis
-            };
-
-            localStorage.setItem('zeitInfo', JSON.stringify(zeitInfo));
-            window.location.href = '/dritteSeite.html';
+        function finalize() {
+            alert('Raum und Zeit wurden erfolgreich gespeichert!');
+            // Weiterleitung oder weitere Aktionen hier einfügen
         }
 
-        function onload() {
-            fetchRaeume();
-
-            // Setze Standardwert für Datum auf aktuelles Datum
-            const heute = new Date().toISOString().split('T')[0];
-            document.getElementById('datum').value = heute;
-            document.getElementById('datum').min = heute;
-        }
-
-        // Lade Daten beim Seitenaufruf
-        document.addEventListener('DOMContentLoaded', onload);
+        // Lade Informationen beim Seitenstart
+        document.addEventListener('DOMContentLoaded', loadZeitInfo);
     </script>
 </body>
+
 </html>

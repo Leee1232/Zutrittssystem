@@ -272,3 +272,125 @@
 2025-01-27 14:57:34,194 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988047}
 2025-01-27 14:57:34,195 - INFO - Token von leon ist gï¿½ltig.
 2025-01-27 14:57:43,176 - INFO - Alle Schï¿½ler abgerufen.
+2025-01-27 15:18:56,221 - DEBUG - Logger initialized successfully.
+2025-01-27 15:19:01,944 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988236}
+2025-01-27 15:19:01,945 - INFO - Token von leon ist gültig.
+2025-01-27 15:19:02,794 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737988236}
+2025-01-27 15:19:02,795 - INFO - Token von leon ist gültig.
+2025-01-27 15:19:22,742 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg5MzYyfQ.vm99ShNwj_vC8zxvPBZbP8O5c0_tkLd64mASM7GgNFI
+2025-01-27 15:19:22,743 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 15:19:22,783 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989362}
+2025-01-27 15:19:22,785 - INFO - Token von leon ist gültig.
+2025-01-27 15:20:47,700 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989362}
+2025-01-27 15:20:47,701 - INFO - Token von leon ist gültig.
+2025-01-27 15:20:48,582 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989362}
+2025-01-27 15:20:48,583 - INFO - Token von leon ist gültig.
+2025-01-27 15:21:15,813 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg5NDc1fQ._NjVPpl04tJLWigl_9EW7Ikx-X7q4IQIiaRLjrI-U5k
+2025-01-27 15:21:15,814 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 15:21:15,848 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989475}
+2025-01-27 15:21:15,849 - INFO - Token von leon ist gültig.
+2025-01-27 15:22:27,323 - DEBUG - Logger initialized successfully.
+2025-01-27 15:22:43,585 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTg5NTYzfQ.HtQCdPrXa_T0YhSHQU2LRoTK1M0A2dG1iU0mVbPvYMQ
+2025-01-27 15:22:43,585 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 15:22:43,646 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:22:43,647 - INFO - Token von leon ist gültig.
+2025-01-27 15:22:46,273 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:22:46,274 - INFO - Token von leon ist gültig.
+2025-01-27 15:22:46,680 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:23:34,184 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:23:34,185 - INFO - Token von leon ist gültig.
+2025-01-27 15:23:34,201 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:23:35,160 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:23:35,162 - INFO - Token von leon ist gültig.
+2025-01-27 15:23:35,184 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:23:47,719 - DEBUG - Logger initialized successfully.
+2025-01-27 15:23:56,672 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:23:56,673 - INFO - Token von leon ist gültig.
+2025-01-27 15:23:57,413 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:23:57,414 - INFO - Token von leon ist gültig.
+2025-01-27 15:23:58,787 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:23:58,788 - INFO - Token von leon ist gültig.
+2025-01-27 15:23:59,169 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:24:39,766 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:24:39,769 - INFO - Token von leon ist gültig.
+2025-01-27 15:24:39,784 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:24:39,787 - INFO - Token von leon ist gültig.
+2025-01-27 15:24:56,901 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:25:33,184 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:25:33,185 - INFO - Token von leon ist gültig.
+2025-01-27 15:25:33,534 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:25:34,292 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:25:34,292 - INFO - Token von leon ist gültig.
+2025-01-27 15:25:34,326 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737989563}
+2025-01-27 15:25:34,327 - INFO - Token von leon ist gültig.
+2025-01-27 15:25:35,577 - INFO - Logout erfolgreich.
+2025-01-27 15:26:05,837 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:28:43,176 - DEBUG - Logger initialized successfully.
+2025-01-27 15:33:54,519 - DEBUG - Logger initialized successfully.
+2025-01-27 15:36:47,342 - DEBUG - Logger initialized successfully.
+2025-01-27 15:41:37,373 - DEBUG - Logger initialized successfully.
+2025-01-27 15:41:59,630 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:43:56,918 - DEBUG - Logger initialized successfully.
+2025-01-27 15:46:30,099 - DEBUG - Logger initialized successfully.
+2025-01-27 15:46:43,853 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:46:44,518 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:46:45,175 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:47:01,782 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:47:10,446 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM3OTkxMDMwfQ.atueboTWZd2bcHwHgkoxyTv2lnqSkYR7oa7sl1yTcSE
+2025-01-27 15:47:10,447 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-27 15:47:10,509 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1737991030}
+2025-01-27 15:47:10,510 - INFO - Token von leon ist gültig.
+2025-01-27 15:47:11,662 - INFO - Logout erfolgreich.
+2025-01-27 15:47:23,903 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:48:40,896 - DEBUG - Logger initialized successfully.
+2025-01-27 15:48:55,597 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:48:56,305 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:48:56,839 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:49:07,098 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:49:23,254 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:03,734 - DEBUG - Logger initialized successfully.
+2025-01-27 15:51:08,391 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:08,618 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:09,316 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:09,947 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:10,249 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:10,396 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:10,587 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:10,834 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:12,074 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:12,589 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:13,213 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:19,688 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:20,013 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:20,235 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:51:29,177 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:17,996 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:18,206 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:18,375 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:18,542 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:18,688 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:18,920 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:19,056 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:19,202 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:19,507 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:19,674 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:19,903 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:20,247 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:20,553 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:20,736 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:53:20,925 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:04,325 - DEBUG - Logger initialized successfully.
+2025-01-27 15:57:13,888 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:14,349 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:14,877 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:15,067 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:15,425 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:15,618 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:15,856 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:16,004 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:16,212 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:16,407 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:16,598 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:16,857 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:19,780 - INFO - Alle Schüler abgerufen.
+2025-01-27 15:57:25,565 - INFO - Alle Schüler abgerufen.

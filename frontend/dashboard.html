@@ -50,7 +50,7 @@
             const token = localStorage.getItem('access_token');
             if (!token) {
                 // Kein Token vorhanden, weiterleiten zur Login-Seite
-                window.location.href = '/index.html';   
+                window.location.href = '/index.html';
             } else {
                 // Optional: Token-Validierung beim Server anfragen
                 fetch('http://127.0.0.1:8000/check_token', {
