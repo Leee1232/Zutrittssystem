@@ -368,11 +368,19 @@ def add_rfid_tag(rfid_tag: RFIDTagRequest, db: Session = Depends(get_db)):
 
 @app.get("/check_zugang/{rfid_tag}/{raum_id}/{datum}/{zeit}")
 def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str, db: Session = Depends(get_db)):
-    schueler = db.query(Schueler).filter(Schueler.rfid_tag == rfid_tag).first()
+    # Debuggen der Eingabeparameter
+    logger.info(f"Check Zugang - RFID-Tag: {rfid_tag}, Raum-ID: {raum_id}, Datum: {datum}, Zeit: {zeit}")
+
+    # Schüler über RFID-Tag mit Join suchen
+    schueler = db.query(Schueler).join(RfidTag, Schueler.tag_id == RfidTag.tag_id).filter(RfidTag.rfid_tag == rfid_tag).first()
+    
     if not schueler:
         logger.warning(f"Schüler mit RFID-Tag {rfid_tag} nicht gefunden.")
         raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
 
+    logger.info(f"Gefundener Schüler: {schueler.vorname} {schueler.nachname}")
+
+    # Zugang überprüfen
     zugang = db.query(Zugang).filter(
         Zugang.schueler_id == schueler.schueler_id,
         Zugang.raum_id == raum_id,
@@ -382,9 +390,10 @@ def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str, db: Session
     ).first()
 
     if zugang is None:
-        logger.info("Zugang nicht erlaubt.")
+        logger.info(f"Kein Zugang für Schüler {schueler.schueler_id} im Raum {raum_id} zur Zeit {zeit}")
         return {"message": "Zugang nicht erlaubt"}
-    logger.info("Zugang erlaubt.")
+    
+    logger.info(f"Zugang für Schüler {schueler.schueler_id} erlaubt")
     return {"message": "Zugang erlaubt"}
 
 @app.get("/raeume", response_model=List[RaumRequest])
