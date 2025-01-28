@@ -253,7 +253,7 @@
                     throw new Error('Fehler beim Abrufen der Raumdaten');
                 }
                 const raeume = await raumResponse.json();
-                
+
                 // Find raum_id for the selected raum
                 const selectedRaum = raeume.find(raum => raum.raum_name === zeitInfo.raum);
                 if (!selectedRaum) {
@@ -294,7 +294,7 @@
 
                 // Success message
                 alert('Zugang für alle Schüler erfolgreich hinzugefügt!');
-                
+
                 // Optional: Clear localStorage and redirect
                 localStorage.removeItem('selectedStudents');
                 localStorage.removeItem('zeitInfo');

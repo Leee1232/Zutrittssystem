@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,7 +66,7 @@
             flex-direction: column;
         }
 
-        .form-group select, 
+        .form-group select,
         .form-group input {
             width: 100%;
             padding: 12px;
@@ -112,6 +113,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>Raum und Zeit Auswahl</h1>
@@ -197,7 +199,7 @@
                 alert('Bitte wählen Sie ein Datum.');
                 return;
             }
-            
+
             if (!zeitVon || !zeitBis) {
                 alert('Bitte geben Sie eine Start- und Endzeit an.');
                 return;
@@ -206,7 +208,7 @@
             // Zeitvalidierung
             const startTime = new Date(`2000-01-01T${zeitVon}`);
             const endTime = new Date(`2000-01-01T${zeitBis}`);
-            
+
             if (startTime >= endTime) {
                 alert('Die Startzeit muss vor der Endzeit liegen. Bitte korrigieren Sie die Zeiten.');
                 document.getElementById('zeitVon').style.borderColor = 'red';
@@ -244,4 +246,5 @@
         });
     </script>
 </body>
+
 </html>
