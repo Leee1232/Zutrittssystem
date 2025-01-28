@@ -564,3 +564,4 @@
 2025-01-28 16:02:55,987 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
 2025-01-28 16:02:55,993 - INFO - Token von leon ist gültig.
 2025-01-28 16:02:55,998 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:03:04,624 - INFO - Alle Schüler abgerufen.
