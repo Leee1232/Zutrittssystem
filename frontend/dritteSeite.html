@@ -223,48 +223,88 @@
         }
 
         async function confirmSelection() {
-            // Get selected student IDs and other details
-            const selectedStudentIds = localStorage.getItem('selectedStudents') ? JSON.parse(localStorage.getItem('selectedStudents')) : [];
-            const selectedRoomId = localStorage.getItem('selectedRoomId');
-            const selectedDate = localStorage.getItem('selectedDate');
-            const selectedTime = localStorage.getItem('selectedTime');
-
-
-
-            if (!selectedStudentIds.length || !selectedRoomId || !selectedDate || !selectedTime) {
-                alert('Bitte wählen Sie alle erforderlichen Informationen aus.');
-                return;
-            }
-
             try {
-                // Send access update for each selected student
-                for (const studentId of selectedStudentIds) {
-                    const response = await fetch(`/zugang/${studentId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            raum_id: parseInt(selectedRoomId),
-                            datum: selectedDate,
-                            zeit: selectedTime
-                        })
-                    });
+                // Retrieve selected students and zeitInfo from localStorage
+                const selectedStudents = JSON.parse(localStorage.getItem('selectedStudents'));
+                const zeitInfo = JSON.parse(localStorage.getItem('zeitInfo'));
 
-                    if (!response.ok) {
-                        throw new Error(`Fehler beim Hinzufügen des Zugangs für Schüler ${studentId}`);
-                    }
+                // Validate data
+                if (!selectedStudents || selectedStudents.length === 0) {
+                    alert('Keine Schüler ausgewählt.');
+                    return;
                 }
 
-                alert('Zugang erfolgreich hinzugefügt!');
-                // Optional: Redirect or clear selections
+                if (!zeitInfo) {
+                    alert('Keine Zeitinformationen gefunden.');
+                    return;
+                }
+
+                // Get access token for authorization
+                const token = localStorage.getItem('access_token');
+                if (!token) {
+                    alert('Nicht angemeldet. Bitte melden Sie sich erneut an.');
+                    window.location.href = '/index.html';
+                    return;
+                }
+
+                // Fetch raum details to get raum_id
+                const raumResponse = await fetch(`http://localhost:8000/raeume`);
+                if (!raumResponse.ok) {
+                    throw new Error('Fehler beim Abrufen der Raumdaten');
+                }
+                const raeume = await raumResponse.json();
+                
+                // Find raum_id for the selected raum
+                const selectedRaum = raeume.find(raum => raum.raum_name === zeitInfo.raum);
+                if (!selectedRaum) {
+                    throw new Error(`Raum ${zeitInfo.raum} nicht gefunden`);
+                }
+
+                // Combine Datum, Zeit von, und Zeit bis
+                const zeitString = `${zeitInfo.datum} ${zeitInfo.zeitVon}-${zeitInfo.zeitBis}`;
+
+                // Process each selected student
+                for (const studentId of selectedStudents) {
+                    // Prepare request payload
+                    const zugangRequest = {
+                        raum_id: selectedRaum.raum_id,
+                        datum: zeitInfo.datum,
+                        zeit: zeitString
+                    };
+
+                    // Send request to backend
+                    const response = await fetch(`http://localhost:8000/zugang/${studentId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(zugangRequest)
+                    });
+
+                    // Check response
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Fehler beim Hinzufügen des Zugangs für Schüler ${studentId}: ${errorText}`);
+                    }
+
+                    const responseData = await response.json();
+                    console.log(`Zugang für Schüler ${studentId}:`, responseData.message);
+                }
+
+                // Success message
+                alert('Zugang für alle Schüler erfolgreich hinzugefügt!');
+                
+                // Optional: Clear localStorage and redirect
+                localStorage.removeItem('selectedStudents');
+                localStorage.removeItem('zeitInfo');
                 window.location.href = '/dashboard.html';
+
             } catch (error) {
                 console.error('Fehler:', error);
-                alert('Es gab einen Fehler beim Hinzufügen des Zugangs.');
+                alert('Es gab einen Fehler beim Hinzufügen des Zugangs. Bitte versuchen Sie es erneut.');
             }
         }
-
         // Fetch students when the page loads
         document.addEventListener('DOMContentLoaded', displayStoredData);
     </script>

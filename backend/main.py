@@ -135,7 +135,7 @@ class KlasseRequest(BaseModel):
 # Secret Key für das JWT (sollte sicher und zufällig sein)
 SECRET_KEY = os.getenv('SECRET_KEY', 'mysecretkey')
 ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Token-Ablaufzeit in Minuten
+ACCESS_TOKEN_EXPIRE_MINUTES = 480  # Token-Ablaufzeit in Minuten (8 Stunden)
 
 # OAuth2PasswordBearer für die Authentifizierung
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -185,7 +185,8 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 @app.get("/check_token")
 def check_token(current_user: str = Depends(get_current_user)):
     logger.info(f"Token von {current_user} ist gültig.")
-    return {"message": "Token gültig"}
+    logger.info(f"Vollständige Benutzer-Informationen: {current_user}")
+    return {"message": "Token gültig", "username": current_user}
     
 # Passwort-Hashing und Verifikation
 def get_password_hash(password: str) -> str:

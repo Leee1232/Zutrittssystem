@@ -322,6 +322,7 @@
         async function checkTokenValidity() {
             const token = localStorage.getItem('access_token');
             if (!token) {
+                console.error('Kein Token gefunden');
                 window.location.href = '/index.html';
                 return false;
             }
@@ -335,12 +336,14 @@
                 });
 
                 if (!response.ok) {
+                    console.error(`Token-Überprüfung fehlgeschlagen: ${response.status}`);
                     window.location.href = '/index.html';
                     return false;
                 }
                 return true;
             } catch (error) {
                 console.error('Fehler bei der Token-Überprüfung:', error);
+                alert('Verbindungsfehler. Bitte melden Sie sich erneut an.');
                 window.location.href = '/index.html';
                 return false;
             }
@@ -358,21 +361,56 @@
             await fetchSchueler();
         }
 
-        function selectStudents() {
-            checkTokenValidity().then(isValid => {
-                if (isValid) {
-                    if (selectedStudents.length === 0) {
-                        alert('Bitte wählen Sie mindestens einen Schüler aus.');
-                        return;
-                    }
+        async function selectStudents() {
+            try {
+                const token = localStorage.getItem('access_token');
+                console.log('Token:', token); // Log the token for debugging
 
-                    const studentIdsToStore = selectedStudents.map(id => String(id));
-
-                    localStorage.setItem('selectedStudents', JSON.stringify(studentIdsToStore));
-
-                    validateTokenForPage('/zweiteSeite.html');
+                if (!token) {
+                    console.error('Kein Token gefunden');
+                    window.location.href = '/index.html';
+                    return;
                 }
-            });
+
+                console.log('Sending token validation request...'); // Debug log
+                const response = await fetch('http://127.0.0.1:8000/check_token', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                console.log('Response status:', response.status); // Log response status
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`Token-Überprüfung fehlgeschlagen: ${response.status}`, errorText);
+                    localStorage.removeItem('access_token'); // Clear invalid token
+                    window.location.href = '/index.html';
+                    return;
+                }
+
+                const responseData = await response.json();
+                console.log('Response data:', responseData); // Log response data
+
+                if (selectedStudents.length === 0) {
+                    alert('Bitte wählen Sie mindestens einen Schüler aus.');
+                    return;
+                }
+
+                const studentIdsToStore = selectedStudents.map(id => String(id));
+                localStorage.setItem('selectedStudents', JSON.stringify(studentIdsToStore));
+
+                // Explicitly navigate to zweiteSeite.html
+                console.log('Navigating to zweiteSeite.html');
+                window.location.replace('/zweiteSeite.html'); // Use replace to prevent back navigation
+            } catch (error) {
+                console.error('Fehler bei der Token-Überprüfung:', error);
+                alert('Verbindungsfehler. Bitte melden Sie sich erneut an.');
+                localStorage.removeItem('access_token'); // Clear token on error
+                window.location.href = '/index.html';
+            }
         }
 
         function cancelNavigation() {
