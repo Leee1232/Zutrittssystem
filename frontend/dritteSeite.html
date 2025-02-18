@@ -224,111 +224,75 @@
 
         async function confirmSelection() {
             try {
-                // Retrieve selected students and zeitInfo from localStorage
                 const selectedStudents = JSON.parse(localStorage.getItem('selectedStudents'));
                 const zeitInfo = JSON.parse(localStorage.getItem('zeitInfo'));
-
-                // Validate data
-                if (!selectedStudents || selectedStudents.length === 0) {
-                    alert('Keine Schüler ausgewählt.');
-                    return;
-                }
+                console.log("zeitInfo:", zeitInfo);
 
                 if (!zeitInfo) {
                     alert('Keine Zeitinformationen gefunden.');
                     return;
                 }
 
-                // Get access token for authorization
-                const token = localStorage.getItem('access_token');
-                if (!token) {
-                    alert('Nicht angemeldet. Bitte melden Sie sich erneut an.');
-                    window.location.href = '/index.html';
-                    return;
-                }
-
-                // Fetch raum details to get raum_id
-                const raumResponse = await fetch(`http://localhost:8000/raeume`);
+                // Abrufen der Raumdaten
+                const raumResponse = await fetch("http://localhost:8000/raeume");
                 if (!raumResponse.ok) {
                     throw new Error('Fehler beim Abrufen der Raumdaten');
                 }
                 const raeume = await raumResponse.json();
-                
-                // Find raum_id for the selected raum
-                const selectedRaum = raeume.find(raum => 
-                    String(raum.raum_name) === String(zeitInfo.raum) || 
-                    String(raum.raum_id) === String(zeitInfo.raum)
+                console.log("Fetched Räume:", raeume);
+
+                // Raum anhand von raum_name ermitteln (sofern zeitInfo.raum den Namen enthält)
+                const selectedRaum = raeume.find(raum =>
+                    String(raum.raum_name).trim() === String(zeitInfo.raum).trim()
                 );
+                console.log("selectedRaum:", selectedRaum);
 
                 if (!selectedRaum) {
-                    throw new Error(`Raum ${zeitInfo.raum} nicht gefunden`);
+                    alert('Ausgewählter Raum nicht gefunden.');
+                    return;
                 }
 
-                // Prepare the base request payload
+                // Erstelle den Payload mit der raum_id
                 const baseZugangRequest = {
                     raum_id: selectedRaum.raum_id,
                     datum: zeitInfo.datum,
-                    zeit: `${zeitInfo.zeitVon}-${zeitInfo.zeitBis}`
+                    zeit: zeitInfo.zeitVon.trim() + "-" + zeitInfo.zeitBis.trim()
                 };
+                console.log("baseZugangRequest:", baseZugangRequest);
 
-                // Process each selected student
-                const results = [];
+                // für jeden Schüler den Request senden
                 let failedStudents = 0;
-
                 for (const studentId of selectedStudents) {
-                    try {
-                        // Send request to backend for each student
-                        const response = await fetch(`http://localhost:8000/zugang/${studentId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Authorization': `Bearer ${token}`,
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(baseZugangRequest)
-                        });
+                    const response = await fetch(`http://localhost:8000/zugang/${studentId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(baseZugangRequest)
+                    });
+                    const responseData = await response.json();
+                    console.log(`Antwort für Schüler ${studentId}:`, responseData);
 
-                        // Check response
-                        if (!response.ok) {
-                            const errorText = await response.text();
-                            failedStudents++;
-                            results.push({
-                                studentId: studentId,
-                                success: false,
-                                message: `Fehler (${response.status}): ${errorText}`
-                            });
-                        } else {
-                            results.push({
-                                studentId: studentId,
-                                success: true,
-                                message: 'Erfolgreich hinzugefügt'
-                            });
-                        }
-                    } catch (error) {
-                        console.error(`Fehler bei Schüler ${studentId}:`, error);
+                    if (!response.ok) {
                         failedStudents++;
-                        results.push({
-                            studentId: studentId,
-                            success: false,
-                            message: `Unerwarteter Fehler: ${error.message}`
-                        });
                     }
                 }
 
-                // Show summary of results
                 if (failedStudents > 0) {
                     alert(`${failedStudents} Schüler konnten nicht hinzugefügt werden.`);
                 } else {
                     alert('Alle Schüler erfolgreich hinzugefügt!');
                 }
 
-                // Optional: Clear localStorage and redirect
+                // Optionale Bereinigung
                 localStorage.removeItem('selectedStudents');
                 localStorage.removeItem('zeitInfo');
                 window.location.href = '/dashboard.html';
 
             } catch (error) {
-                console.error('Fehler bei der Bestätigung:', error);
-                alert('Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+                console.error("Fehler in confirmSelection:", error);
+                alert('Ein unerwarteter Fehler ist aufgetreten.');
             }
         }
         // Fetch students when the page loads

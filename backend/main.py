@@ -331,28 +331,52 @@ def update_zugang(schueler_id: int, zugang: ZugangRequest, db: Session = Depends
         logger.warning(f"Schüler mit ID {schueler_id} nicht gefunden.")
         raise HTTPException(status_code=404, detail="Schüler nicht gefunden")
 
-    # Prüfen, ob der Schüler bereits Zugang hat
+    # Datumskonvertierung mit .strip() zur Sicherheit
+    try:
+        datum_obj = datetime.strptime(zugang.datum.strip(), "%Y-%m-%d").date()
+    except Exception as e:
+        error_detail = f"Ungültiges Datum: '{zugang.datum}'. Fehler: {str(e)}"
+        logger.error(error_detail)
+        raise HTTPException(status_code=400, detail=error_detail)
+    
+    # Aufteilen des Zeit-Strings und Trimmen von Leerzeichen
+    zeit_parts = zugang.zeit.split('-')
+    if len(zeit_parts) != 2:
+        error_detail = "Ungültiges Zeitformat, erwartet: HH:MM-HH:MM"
+        logger.error(error_detail)
+        raise HTTPException(status_code=400, detail=error_detail)
+    
+    start_time_str = zeit_parts[0].strip()
+    end_time_str = zeit_parts[1].strip()
+    
+    try:
+        zeit_von_obj = datetime.strptime(start_time_str, "%H:%M").time()
+        zeit_bis_obj = datetime.strptime(end_time_str, "%H:%M").time()
+    except Exception as e:
+        error_detail = f"Ungültiges Zeitformat: '{zugang.zeit}'. Fehler: {str(e)}"
+        logger.error(error_detail)
+        raise HTTPException(status_code=400, detail=error_detail)
+    
+    # Prüfen, ob bereits ein Zugang existiert
     existing_zugang = db.query(Zugang).filter(
         Zugang.schueler_id == schueler_id,
         Zugang.raum_id == zugang.raum_id,
-        Zugang.datum == zugang.datum
+        Zugang.datum == datum_obj
     ).first()
 
     if existing_zugang:
-        # Zugang aktualisieren
-        existing_zugang.zeit_von = zugang.zeit.split('-')[0]
-        existing_zugang.zeit_bis = zugang.zeit.split('-')[1]
+        existing_zugang.zeit_von = zeit_von_obj
+        existing_zugang.zeit_bis = zeit_bis_obj
         db.commit()
         logger.info(f"Zugang für Schüler {schueler_id} erfolgreich aktualisiert.")
         return {"message": "Zugang erfolgreich aktualisiert"}
     else:
-        # Neuen Zugang hinzufügen
         neuer_zugang = Zugang(
             schueler_id=schueler_id,
             raum_id=zugang.raum_id,
-            datum=zugang.datum,
-            zeit_von=zugang.zeit.split('-')[0],
-            zeit_bis=zugang.zeit.split('-')[1]
+            datum=datum_obj,
+            zeit_von=zeit_von_obj,
+            zeit_bis=zeit_bis_obj
         )
         db.add(neuer_zugang)
         db.commit()
@@ -397,17 +421,11 @@ def check_zugang(rfid_tag: str, raum_id: int, datum: str, zeit: str, db: Session
     logger.info(f"Zugang für Schüler {schueler.schueler_id} erlaubt")
     return {"message": "Zugang erlaubt"}
 
-@app.get("/raeume", response_model=List[RaumRequest])
+@app.get("/raeume")
 def get_raeume(db: Session = Depends(get_db)):
-    """
-    Ruft alle Räume aus der Datenbank ab.
-    
-    :param db: Datenbankverbindung
-    :return: Liste aller Räume
-    """
     try:
         raeume = db.query(Raum).all()
-        return [{"raum_name": raum.raum_name} for raum in raeume]
+        return [{"raum_id": raum.raum_id, "raum_name": raum.raum_name} for raum in raeume]
     except Exception as e:
         logger.error(f"Fehler beim Abrufen der Räume: {e}")
         raise HTTPException(status_code=500, detail="Fehler beim Abrufen der Räume")
