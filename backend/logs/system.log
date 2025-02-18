@@ -565,3 +565,154 @@
 2025-01-28 16:02:55,993 - INFO - Token von leon ist gültig.
 2025-01-28 16:02:55,998 - INFO - Vollständige Benutzer-Informationen: leon
 2025-01-28 16:03:04,624 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:16:05,764 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:16:45,185 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:16:48,577 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
+2025-01-28 16:16:48,581 - INFO - Token von leon ist gültig.
+2025-01-28 16:16:48,583 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:16:50,489 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
+2025-01-28 16:16:50,493 - INFO - Token von leon ist gültig.
+2025-01-28 16:16:50,497 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:16:50,565 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:16:55,208 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
+2025-01-28 16:16:55,215 - INFO - Token von leon ist gültig.
+2025-01-28 16:16:55,218 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:17:01,785 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:17:40,311 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
+2025-01-28 16:17:40,313 - INFO - Token von leon ist gültig.
+2025-01-28 16:17:40,316 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:17:41,596 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
+2025-01-28 16:17:41,601 - INFO - Token von leon ist gültig.
+2025-01-28 16:17:41,605 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:17:41,670 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:18:01,128 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
+2025-01-28 16:18:01,132 - INFO - Token von leon ist gültig.
+2025-01-28 16:18:01,134 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:18:10,911 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:18:18,001 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738105368}
+2025-01-28 16:18:18,005 - INFO - Token von leon ist gültig.
+2025-01-28 16:18:18,008 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:32:28,953 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM4MTA3MTQ4fQ._0-TokLkQvO5xpJfnHonU23LtS2-hpV1i6-TlG7MaVc
+2025-01-28 16:32:28,955 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-01-28 16:32:29,136 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738107148}
+2025-01-28 16:32:29,139 - INFO - Token von leon ist gültig.
+2025-01-28 16:32:29,143 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:32:30,124 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738107148}
+2025-01-28 16:32:30,129 - INFO - Token von leon ist gültig.
+2025-01-28 16:32:30,134 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:32:30,207 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:32:36,692 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738107148}
+2025-01-28 16:32:36,696 - INFO - Token von leon ist gültig.
+2025-01-28 16:32:36,699 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:32:50,559 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:34:09,833 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738107148}
+2025-01-28 16:34:09,835 - INFO - Token von leon ist gültig.
+2025-01-28 16:34:09,836 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:34:10,701 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738107148}
+2025-01-28 16:34:10,706 - INFO - Token von leon ist gültig.
+2025-01-28 16:34:10,709 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:34:10,765 - INFO - Alle Schüler abgerufen.
+2025-01-28 16:34:18,395 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738107148}
+2025-01-28 16:34:18,397 - INFO - Token von leon ist gültig.
+2025-01-28 16:34:18,398 - INFO - Vollständige Benutzer-Informationen: leon
+2025-01-28 16:34:27,578 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:16:09,964 - DEBUG - Logger initialized successfully.
+2025-02-03 12:16:43,263 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:16:55,439 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM4NjEwMjE1fQ.FF7wD8DAg-wzoC3mPKNZLdrguFoJmEl5DCd8ROs9vd4
+2025-02-03 12:16:55,444 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-02-03 12:16:55,651 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:16:55,656 - INFO - Token von leon ist gültig.
+2025-02-03 12:16:55,661 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:18:19,760 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:18:19,765 - INFO - Token von leon ist gültig.
+2025-02-03 12:18:19,768 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:18:19,820 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:18:24,699 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:18:24,702 - INFO - Token von leon ist gültig.
+2025-02-03 12:18:24,705 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:18:31,107 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:20:16,792 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:20:16,797 - INFO - Token von leon ist gültig.
+2025-02-03 12:20:16,799 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:23:03,929 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:23:03,932 - INFO - Token von leon ist gültig.
+2025-02-03 12:23:03,933 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:23:03,973 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:23:07,245 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:23:07,248 - INFO - Token von leon ist gültig.
+2025-02-03 12:23:07,251 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:23:13,171 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:27:53,820 - INFO - Neuer Zugang für Schüler 2 hinzugefügt.
+2025-02-03 12:35:43,625 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:35:43,628 - INFO - Token von leon ist gültig.
+2025-02-03 12:35:43,630 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:35:44,945 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738610215}
+2025-02-03 12:35:44,949 - INFO - Token von leon ist gültig.
+2025-02-03 12:35:44,952 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:35:55,486 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM4NjExMzU1fQ.FqbGqb8ICEM93-RXILowpz5yMiWtGKfa4P5pknwMhl0
+2025-02-03 12:35:55,489 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-02-03 12:35:55,713 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611355}
+2025-02-03 12:35:55,715 - INFO - Token von leon ist gültig.
+2025-02-03 12:35:55,716 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:37:00,034 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611355}
+2025-02-03 12:37:00,037 - INFO - Token von leon ist gültig.
+2025-02-03 12:37:00,040 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:37:00,084 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:37:05,411 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611355}
+2025-02-03 12:37:05,413 - INFO - Token von leon ist gültig.
+2025-02-03 12:37:05,416 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:37:11,092 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:37:15,435 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611355}
+2025-02-03 12:37:15,438 - INFO - Token von leon ist gültig.
+2025-02-03 12:37:15,441 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:37:43,663 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611355}
+2025-02-03 12:37:43,666 - INFO - Token von leon ist gültig.
+2025-02-03 12:37:43,669 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:37:43,721 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:37:48,667 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611355}
+2025-02-03 12:37:48,670 - INFO - Token von leon ist gültig.
+2025-02-03 12:37:48,671 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:37:53,458 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:41:50,196 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:42:05,713 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM4NjExNzI1fQ.QB5-hooIokYGpXmlS9FLt2RriEdS6ncDp4wdm0a7nig
+2025-02-03 12:42:05,715 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-02-03 12:42:05,879 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611725}
+2025-02-03 12:42:05,881 - INFO - Token von leon ist gültig.
+2025-02-03 12:42:05,882 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:42:06,606 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611725}
+2025-02-03 12:42:06,609 - INFO - Token von leon ist gültig.
+2025-02-03 12:42:06,611 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:42:06,652 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:42:12,479 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611725}
+2025-02-03 12:42:12,482 - INFO - Token von leon ist gültig.
+2025-02-03 12:42:12,484 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:42:18,324 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:42:46,606 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611725}
+2025-02-03 12:42:46,610 - INFO - Token von leon ist gültig.
+2025-02-03 12:42:46,613 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:43:05,712 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611725}
+2025-02-03 12:43:05,716 - INFO - Token von leon ist gültig.
+2025-02-03 12:43:05,720 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:43:05,862 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:43:20,093 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611725}
+2025-02-03 12:43:20,094 - INFO - Token von leon ist gültig.
+2025-02-03 12:43:20,096 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:43:27,020 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:46:04,213 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:46:11,912 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611725}
+2025-02-03 12:46:11,915 - INFO - Token von leon ist gültig.
+2025-02-03 12:46:11,916 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:46:20,619 - INFO - Token erstellt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsZW9uIiwiZXhwIjoxNzM4NjExOTgwfQ.qXa1HpownyvCqNed3iykn2zv-PRNKhzqDhCNMCC-Kbc
+2025-02-03 12:46:20,622 - INFO - Benutzer leon hat sich erfolgreich eingeloggt.
+2025-02-03 12:46:20,780 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611980}
+2025-02-03 12:46:20,786 - INFO - Token von leon ist gültig.
+2025-02-03 12:46:20,798 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:46:21,621 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611980}
+2025-02-03 12:46:21,624 - INFO - Token von leon ist gültig.
+2025-02-03 12:46:21,627 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:46:21,665 - INFO - Alle Schüler abgerufen.
+2025-02-03 12:46:25,773 - INFO - Token verifiziert: {'sub': 'leon', 'exp': 1738611980}
+2025-02-03 12:46:25,776 - INFO - Token von leon ist gültig.
+2025-02-03 12:46:25,778 - INFO - Vollständige Benutzer-Informationen: leon
+2025-02-03 12:46:31,199 - INFO - Alle Schüler abgerufen.
+2025-02-18 15:26:47,218 - DEBUG - Logger initialized successfully.

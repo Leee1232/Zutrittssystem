@@ -255,54 +255,80 @@
                 const raeume = await raumResponse.json();
                 
                 // Find raum_id for the selected raum
-                const selectedRaum = raeume.find(raum => raum.raum_name === zeitInfo.raum);
+                const selectedRaum = raeume.find(raum => 
+                    String(raum.raum_name) === String(zeitInfo.raum) || 
+                    String(raum.raum_id) === String(zeitInfo.raum)
+                );
+
                 if (!selectedRaum) {
                     throw new Error(`Raum ${zeitInfo.raum} nicht gefunden`);
                 }
 
-                // Combine Datum, Zeit von, und Zeit bis
-                const zeitString = `${zeitInfo.datum} ${zeitInfo.zeitVon}-${zeitInfo.zeitBis}`;
+                // Prepare the base request payload
+                const baseZugangRequest = {
+                    raum_id: selectedRaum.raum_id,
+                    datum: zeitInfo.datum,
+                    zeit: `${zeitInfo.zeitVon}-${zeitInfo.zeitBis}`
+                };
 
                 // Process each selected student
+                const results = [];
+                let failedStudents = 0;
+
                 for (const studentId of selectedStudents) {
-                    // Prepare request payload
-                    const zugangRequest = {
-                        raum_id: selectedRaum.raum_id,
-                        datum: zeitInfo.datum,
-                        zeit: zeitString
-                    };
+                    try {
+                        // Send request to backend for each student
+                        const response = await fetch(`http://localhost:8000/zugang/${studentId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(baseZugangRequest)
+                        });
 
-                    // Send request to backend
-                    const response = await fetch(`http://localhost:8000/zugang/${studentId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(zugangRequest)
-                    });
-
-                    // Check response
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        throw new Error(`Fehler beim Hinzufügen des Zugangs für Schüler ${studentId}: ${errorText}`);
+                        // Check response
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            failedStudents++;
+                            results.push({
+                                studentId: studentId,
+                                success: false,
+                                message: `Fehler (${response.status}): ${errorText}`
+                            });
+                        } else {
+                            results.push({
+                                studentId: studentId,
+                                success: true,
+                                message: 'Erfolgreich hinzugefügt'
+                            });
+                        }
+                    } catch (error) {
+                        console.error(`Fehler bei Schüler ${studentId}:`, error);
+                        failedStudents++;
+                        results.push({
+                            studentId: studentId,
+                            success: false,
+                            message: `Unerwarteter Fehler: ${error.message}`
+                        });
                     }
-
-                    const responseData = await response.json();
-                    console.log(`Zugang für Schüler ${studentId}:`, responseData.message);
                 }
 
-                // Success message
-                alert('Zugang für alle Schüler erfolgreich hinzugefügt!');
-                
+                // Show summary of results
+                if (failedStudents > 0) {
+                    alert(`${failedStudents} Schüler konnten nicht hinzugefügt werden.`);
+                } else {
+                    alert('Alle Schüler erfolgreich hinzugefügt!');
+                }
+
                 // Optional: Clear localStorage and redirect
                 localStorage.removeItem('selectedStudents');
                 localStorage.removeItem('zeitInfo');
                 window.location.href = '/dashboard.html';
 
             } catch (error) {
-                console.error('Fehler:', error);
-                alert('Es gab einen Fehler beim Hinzufügen des Zugangs. Bitte versuchen Sie es erneut.');
+                console.error('Fehler bei der Bestätigung:', error);
+                alert('Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
             }
         }
         // Fetch students when the page loads
